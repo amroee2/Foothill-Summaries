@@ -128,6 +128,8 @@ after handling the conflict, we can see that the main branch refeerence was upda
 
 And using **git cat-file** we notice that this time the commit has 2 parents, which are basically the commits we merged, after the operation is done, main gets updated to reference the merge commit like we said, but ideas stays where it is.
 
+![image](https://github.com/user-attachments/assets/86d78fda-36d6-41a7-a0bc-d920c268a236)
+
 ![image](https://github.com/user-attachments/assets/029825b2-7438-4ad8-bccb-e7d307bb6215)
 
 When we do the opposite, as in be in the ideas branch and merge with master, a new commit will not occur, it will just change the branch reference commit to the new merge commit.
