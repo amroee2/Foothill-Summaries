@@ -240,3 +240,33 @@ Its stored in the same directory as annotated tags, and it only contains the com
 The main difference between annotated tags and Lightweight ones is that annotated tags have additional metadata that points to the commit, lightweight ones refer to the commit directly, and are clsoer to the concept of **branches** than annotated ones, but unlike branches, it doesnt update after committing.
 
 ![image](https://github.com/user-attachments/assets/dd896c96-3e52-462a-b271-b732a73cc8b5)
+
+And this completes version control layer.
+
+# Distributed Version Control
+
+The whole point of git is to keep track of versions of our project but to also work with others on said projects, which is why we have systems like Github where git is hosted on it.
+
+A Github repo is a **remote repo** that people working on the same project can clone and work on, and then pull/push changes depending on the workflow.
+
+## git push
+
+Git push is used to upload the files/changes we worked on into the remote repo, and depending on the current state of the repository our changed will show up on github.
+
+When another user uploads their changes, they will have to **pull** the repo first, so they can **fetch** the changes we worked on and then **merge** their work with our work, handle any conflicts (if exist) then push the changes.
+
+**git pull** is a mix of **git fetch** and **git merge**, we can either do git pull directly or do the other 2 seperately.
+
+## Issue with Rebase
+
+Assume we are in this situation, we rebased in our local repo and want to push changes into the remote repo, but this will cause conflicts because we have different histories on the local and remote repos.
+
+![image](https://github.com/user-attachments/assets/be85b5ac-81cd-4833-8d5d-a360363a2bc1)
+
+So to solve the confict we can either do **git push -f** which is not a good idea, or we can pull and handle the conflict locally.
+
+Only this time the result is not great, now we have a 2 of the same commit, the original commit and the new copy of it that was created during rebase operation, this will cause confusion (2 commits with the same version of files, same commit message, just different SHA1) and is against the whole point of rebasing (cleaning commit history).
+
+![image](https://github.com/user-attachments/assets/ab71a668-dd62-47be-854a-a2739e239aae)
+
+To avoid this, as a rule of thumb we shouldnt rebase shared commits (a commit that has been pushed into a shared repoistory).
