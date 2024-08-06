@@ -137,3 +137,48 @@ When we do the opposite, as in be in the ideas branch and merge with master, a n
 ![image](https://github.com/user-attachments/assets/4ff2a6c8-eb48-4196-800e-bde889cacc0e)
 
 This is called a **fast forward merge**.
+
+# Losing your HEAD
+
+In git, you can use HEAD to refer to a **commit**, this is done using **git checkout (commit sha)**.
+
+![image](https://github.com/user-attachments/assets/3c8c1a4c-21f0-4da3-9c4c-63c2188fc6c7)
+
+Notice the new status in place of branch name.
+
+Notice that head now acts as a branch, it shows the most recent commit for it and the commits before it.
+![image](https://github.com/user-attachments/assets/91f335e6-ff89-4fda-9b6c-50923c5f2c1c)
+
+Notice how HEAD now contains the commit SHA
+
+![image](https://github.com/user-attachments/assets/01e93a10-564c-42b6-9177-d1add86cfc07)
+
+And since its an old commit, it also has the old version of recipe.txt 
+
+![image](https://github.com/user-attachments/assets/5bd665f4-a2f8-4e28-9b5b-b80eb78cef93)
+
+Since it works like a branch, we can make changes and commit as usual.
+
+![image](https://github.com/user-attachments/assets/ad3e1c6d-8dc4-4848-8fbe-a9cbe3c2b983)
+
+**What happens when you switch back to master?**
+
+The new commits can be at risk of being garbage collected, to avoid this, we could add a branch using **git branch (branch name) last commit sha)**
+
+Notice now that the new commit is not included in master branch log.
+
+![image](https://github.com/user-attachments/assets/220b441c-fc1a-4ab4-85ef-3d3e24265920)
+
+But now we can switch to headBranch and work as usual
+
+![image](https://github.com/user-attachments/assets/aae3fe6b-2d30-4485-baf6-957b3dcef406)
+
+Now we can merge into main, resolve conflict and log would look like this
+
+![image](https://github.com/user-attachments/assets/43f0f36b-e38e-4ab5-934b-cb9489adb9f6)
+
+Finally we can go to main and merge with head branch (fast forward) and do the same with ideas. It would look like this in the end.
+
+![image](https://github.com/user-attachments/assets/a3ca9395-51b2-43e0-92dd-f9f1e4c11c60)
+
+# Rebasing from the insdie
