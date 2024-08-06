@@ -70,4 +70,68 @@ When we access the tree using the same command, we would be able to see other ob
 
 If we make changes to recipe.txt and commit and then access the new commit SHA1, we can see the new parent line, which is the SHA for the previous commit.
 
+Commits are also an object type in git.
 ![image](https://github.com/user-attachments/assets/d1d1889a-66cb-49d4-9a18-601956f6d826)
+
+There are 4 object types in git
+
+- Blobs
+- Trees
+- Commits
+- Annoated tags (discussed later).
+
+# How Branches Really Work
+
+Branche are just references to commits, thats all.
+
+In .git folder, we can navigate to refs/heads and see all our branches, currently there is only one branch
+
+![image](https://github.com/user-attachments/assets/9096adeb-c90a-49b4-984f-2c2b5d0fc171)
+
+Now after we create a new branch, its added into that same heads directory
+
+![image](https://github.com/user-attachments/assets/cf0e50c7-d7e1-49b4-a994-2c0fa154f340)
+
+Notice that the content of the files are just references to commits, and since we just created the ideas branch, it will reference the same commit as the master one
+
+![image](https://github.com/user-attachments/assets/9752a583-c7c0-400e-b294-191b8d0a92cd)
+
+**How does git know which branch we are in?**
+
+Git knows using the HEAD file in .git dir
+
+![image](https://github.com/user-attachments/assets/13fc6f81-1675-4b9a-99d1-edd7ca7d0f67)
+
+![image](https://github.com/user-attachments/assets/69deccae-5ec5-4998-bfd9-8ba5976c0acb)
+
+basically contains the path to the said file.
+
+Now after making a new commit in master, we can see that the reference main to a commit changed, but **head didnt**, head simply went along with main, if we switch to the ideas branch, we will go back to the previous commit.
+
+![image](https://github.com/user-attachments/assets/cd78fc61-1346-487f-9da5-8a26ba35c7ca)
+
+Head only changes when we switch branches.
+
+## Merging
+
+We can update the recipe.txt file in the ideas branch and then merge in the main branch to see what happens.
+
+![image](https://github.com/user-attachments/assets/f31bd77a-09a1-41fe-a052-e389c69e19cc)
+
+Conflict occured, we can resolve the conflict by making some changes to the recipe and remove the annotations.
+
+![image](https://github.com/user-attachments/assets/65a46623-8754-4e4d-b756-b9212a94d412)
+
+after handling the conflict, we can see that the main branch refeerence was updated to the merge commit.
+
+![image](https://github.com/user-attachments/assets/e2a6766e-8a79-4760-a534-07d3a5e9780d)
+
+And using **git cat-file** we notice that this time the commit has 2 parents, which are basically the commits we merged, after the operation is done, main gets updated to reference the merge commit like we said, but ideas stays where it is.
+
+![image](https://github.com/user-attachments/assets/029825b2-7438-4ad8-bccb-e7d307bb6215)
+
+When we do the opposite, as in be in the ideas branch and merge with master, a new commit will not occur, it will just change the branch reference commit to the new merge commit.
+
+![image](https://github.com/user-attachments/assets/4ff2a6c8-eb48-4196-800e-bde889cacc0e)
+
+This is called a **fast forward merge**.
