@@ -181,4 +181,62 @@ Finally we can go to main and merge with head branch (fast forward) and do the s
 
 ![image](https://github.com/user-attachments/assets/a3ca9395-51b2-43e0-92dd-f9f1e4c11c60)
 
-# Rebasing from the insdie
+# Rebasing from the inside
+
+Rebasing, like mentioned before is an advanced type of merge, when rebasing from main branch, we take all the second branch commits, make a copy of them and put them ahead of all main branches commits.
+
+![image](https://github.com/user-attachments/assets/84a325e6-2df1-428b-bf41-51faac51dbcd)
+
+Merges are simpler, as they just create a new commit that has 2 parents, **rebasing** can be a dangerous process since it **forges history**, like in the picture above, it might seem like these commits were in order, but in fact there is a chance that we commited in main branch after our last commit in the second branch, and after rebasing **all** main commits are now before the second branch commits.
+
+**When in doubt, use merge**
+
+# Introduction to Tags
+
+Tags are the fourth object type in git.
+
+![image](https://github.com/user-attachments/assets/6975f67a-9488-40c6-8c37-d9150586beb9)
+
+They are used to put a label on a commit.
+
+## Annotaed tag
+
+An annotated tag is a label for a commit with a message.
+
+![image](https://github.com/user-attachments/assets/2fe1ed88-f87f-40a7-8e23-94ddb5a74aa2)
+
+Tags are stored in the same directory as baranches.
+
+![image](https://github.com/user-attachments/assets/764405a8-2e94-4edf-b386-127bbf86d4f2)
+
+When doing cat-file on a tag, it outputs a paragraph containing
+
+- Hash code for an object (the commit it tags)
+- Author name and email
+- Date
+- And the message
+
+![image](https://github.com/user-attachments/assets/b9c7d84a-f63b-402f-9db3-3eb512839b5d)
+
+We can see that the hash code is the same one shown when using **git log**.
+
+![image](https://github.com/user-attachments/assets/67b98821-e29f-4e7c-a6a4-06044603f72a)
+
+We can also checkout a tag as well, and do the detached HEAD process all over again.
+
+Unlike branches, tags are associated with commits, when you add a new commit, the branch ref changes, but the tag stays the same.
+
+## Lightweight tags
+
+Works the same as annotated tags, but without storing all those additional information, it only contains the commit SHA its referring to.
+
+We do **git tag (tag name)**, in this case we did **git tag newTag**
+
+![image](https://github.com/user-attachments/assets/5743ef85-6161-4282-8761-319d086576fb)
+
+Its stored in the same directory as annotated tags, and it only contains the commit SHA, Notice how they are the same.
+![image](https://github.com/user-attachments/assets/a1e6e3e8-794c-4dee-94a5-3c832a33045c)
+
+The main difference between annotated tags and Lightweight ones is that annotated tags have additional metadata that points to the commit, lightweight ones refer to the commit directly, and are clsoer to the concept of **branches** than annotated ones, but unlike branches, it doesnt update after committing.
+
+![image](https://github.com/user-attachments/assets/dd896c96-3e52-462a-b271-b732a73cc8b5)
