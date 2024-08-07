@@ -71,8 +71,6 @@ Very simply, one one long running branch (main/master) and short living branches
 
 ![image](https://github.com/user-attachments/assets/38efc441-33a9-4219-bcf5-84b08440d63b)
 
-More on branching strategies in an another section.
-
 # Pull Requests
 
 Pull requests are in short requests to merge a branch into main, its like another layer of safety before merging into main in the remote repository on Github or any place where git is hosted.
