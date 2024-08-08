@@ -77,8 +77,12 @@ There are 2 types of hooks
 
 # Git blame
 
-Git blame takes a file as an argument and shows lines with their author, date and the commit SHA, **we make sure to pass -w to ignore whiespaces**
+Git blame takes a file as an argument and shows lines with their author, date and the commit SHA, **we make sure to pass -w to ignore whitelines**
 
 ![image](https://github.com/user-attachments/assets/41509738-014d-4bb5-b96e-89f092cad513)
 
 It's also possible to view the blame command output through github UI
+
+![image](https://github.com/user-attachments/assets/e98b428c-6701-4f8a-b7ed-6acc7b84b050)
+
+Its useful when trying to find out why a certain line/chunk of code was introduced, as we can find the commit and find its details using git cat-file or git show. 
