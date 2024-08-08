@@ -29,10 +29,6 @@ But we can still see the commit itself in git log.
 
 ![image](https://github.com/user-attachments/assets/952f83d2-dfde-4cbe-b102-f76e8a1018d4)
 
-## Expire
-
-............
-
 # Git bisect
 
 Runs a binary search algorithm to find a commit the user is looking for, can be used to find a commit that introduced a bug/feature, or if you want to find a commit where a new specific change happened. Git bisect can be ran like this.
