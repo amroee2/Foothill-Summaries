@@ -20,9 +20,11 @@ When running **git reflog**, **show** is the default subcommand.
 From git reflog the previous **HEAD@{1}** is not there anymore, and the number of logs went down to 29.
 
 **before**
+
 ![image](https://github.com/user-attachments/assets/d6779e2e-31d6-4629-8e2c-029e80113396)
 
 **after**
+
 ![image](https://github.com/user-attachments/assets/fa8e2b55-3638-4acf-90d7-917b1b088f7d)
 
 But we can still see the commit itself in git log.
