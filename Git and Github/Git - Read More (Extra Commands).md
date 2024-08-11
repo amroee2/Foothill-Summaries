@@ -84,3 +84,37 @@ It's also possible to view the blame command output through github UI
 ![image](https://github.com/user-attachments/assets/e98b428c-6701-4f8a-b7ed-6acc7b84b050)
 
 Its useful when trying to find out why a certain line/chunk of code was introduced, as we can find the commit and find its details using git cat-file or git show. 
+
+# Git submodule
+
+git submodule is a way to have a repository as a directory of an another repository.
+
+**git submodule add (repository url)**
+
+![image](https://github.com/user-attachments/assets/07b9623f-0ea8-4181-a22a-e8be49d63672)
+
+We can see that a file and a directory were created, .gitmodule file contains the configurations for all submodules, it includes the path and the url for each, while the directory is the new repository.
+
+![image](https://github.com/user-attachments/assets/36ae0ee8-53fb-4b0c-88f7-4603cd50ac3a)
+
+![image](https://github.com/user-attachments/assets/0001d445-4f2f-4681-a0d8-e50d1a8ec776)
+
+![image](https://github.com/user-attachments/assets/8b4ce312-ad8e-4682-a650-a23901794c06)
+
+When making a commit within the submodule, the outer module will track these changes as well.
+
+![image](https://github.com/user-attachments/assets/df627fa9-97f7-4be6-9d99-c8c102432b2c)
+
+In github, a submodule repository looks like this.
+
+![image](https://github.com/user-attachments/assets/dd36ca91-aa7b-47df-b765-71cc0bd78a16)
+
+If you push the chnges only in the outer repository and not in the submodule, we will be redirected to a 404 page.
+
+![image](https://github.com/user-attachments/assets/04854024-2996-4933-9ab5-04e7d74ced8a)
+
+![image](https://github.com/user-attachments/assets/4eca32e5-32d2-4b13-96e9-c697ec580527)
+
+But after we push the changes, the page will open, as its basically just a reference to the last commit the submodule had.
+
+![image](https://github.com/user-attachments/assets/06ea6611-6c18-4df0-9e85-0cd311748f6e)
