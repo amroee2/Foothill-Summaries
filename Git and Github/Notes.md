@@ -1,0 +1,4 @@
+- Exclude
+- rebase issues on local
+- config file
+- .git directories and files
