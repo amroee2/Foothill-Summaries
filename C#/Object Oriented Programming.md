@@ -284,4 +284,133 @@ public class Cat : IAnimal
 
 ```
 
+In C#, there are several predefined interfaces in the .NET framework that provide common functionality to classes. One such example is the ICloneable interface, which allows for creating a copy of an object.
 
+```
+public class Person : ICloneable
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+
+    // Implementing the Clone method from ICloneable
+    public object Clone()
+    {
+        return new Person(Name, Age); // Returns a shallow copy of the object
+    }
+}
+```
+
+- Shallow Copy: Copies the object's fields as-is, but if a field is a reference type, it points to the same memory location.
+- Deep Copy: Copies the object and recursively copies all objects it references, so all objects are independent.
+## Sealed Keyword
+
+Sealed keyword is used to indicate whether a class can no longer be extended (prevents further inheritance), and on a method to prevent it from being overridden.
+
+```
+public sealed class SealedClass
+{
+    // This class can't be inherited
+}
+
+public class BaseClass
+{
+    public virtual void Display() { }
+}
+
+public class DerivedClass : BaseClass
+{
+    public sealed override void Display()
+    {
+        // This method can't be overridden further
+    }
+}
+```
+
+## Partial classes
+
+Partial classes are just a simple way to make the class members be more readable. In large programs, a class can have a lot of members (methods, events, data variables) which can make the class very big, one way to get behind this is through partial classes, which basically allow you to seperate a class intwo 2 files.
+
+```
+// File 1
+public partial class MyClass
+{
+    public void Method1() { }
+}
+
+// File 2
+public partial class MyClass
+{
+    public void Method2() { }
+}
+
+```
+## Constructor chaining
+
+we already mentioned that a class can have multiple constructors, and that we can utilize the **this** keyword in a class to refer to the current object instance, we can also use this to **chain** constructors (call one from the other).
+
+```
+public class Person
+{
+    public string Name { get; set; }
+
+    public Person() : this("Unknown") { } // Calls the other constructor
+
+    public Person(string name)
+    {
+        Name = name;
+    }
+}
+```
+## Exception handling
+
+Exception handling in C# allows developers to manage runtime errors gracefully without crashing the program. It uses the try, catch, finally, and throw keywords to handle exceptions and recover from them.
+
+- try-catch block: try contains the code that might cause the exception, the catch block is responsible of "catching it" and handling it.
+```
+try
+{
+    int result = 10 / 0; // This will throw a DivideByZeroException
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine("Cannot divide by zero!");
+}
+```
+we can have multiple catch blocks for the same try block
+
+- Finally block: The finally block contains code that always runs, regardless of whether an exception was thrown or caught. It’s typically used to release resources like file handles, database connections, etc.
+
+```
+try
+{
+    // Code that may throw an exception
+}
+catch (Exception ex)
+{
+    Console.WriteLine("An error occurred.");
+}
+finally
+{
+    Console.WriteLine("This block always runs.");
+}
+```
+- throw: The throw keyword is used to manually throw an exception. It can be used to signal that an exceptional situation has occurred.
+
+```
+public void Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException("Denominator cannot be zero.");
+    
+    Console.WriteLine(a / b);
+}
+```
+
+- Compile-Time Exceptions: These are caught by the compiler, such as syntax errors or invalid data types. These errors prevent the program from compiling and must be fixed before running the program.
+- Run-Time Exceptions: These occur during the execution of a program, such as dividing by zero, accessing a null object, or invalid array indexing. These are caught using the try-catch mechanism.
