@@ -80,6 +80,8 @@ public void Log(string message)
     Console.WriteLine(message);
 }
 ```
+
+More attributes [link](https://juvenile-longship-fbf.notion.site/Attributes-39c1ad11aa7443ed837463bfe7e9fd6c)
 ## Custom Attributes
 
 ```
