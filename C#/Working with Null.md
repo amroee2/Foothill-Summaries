@@ -30,6 +30,7 @@ Another way of checking if a value is null or not is using the HasValue attribut
 A null-conditional operator applies a member access, ?., or element access, ?[], operation to its operand only if that operand evaluates to non-null. If the operand evaluates to null, the result of applying the operator is null.
 
 This would cause a null reference exception
+
 ![image](https://github.com/user-attachments/assets/5f2b0183-0b99-4801-b1ce-c0d35e5d85ae)
 
 this wouldn't
