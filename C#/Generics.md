@@ -14,6 +14,16 @@ Through the same class, we can declare a list of strings and integers.
 
 ![image](https://github.com/user-attachments/assets/38e4dbe2-5ffe-45d7-b3e2-ac109158ee50)
 
+We can also have multiple parameters
+
+```
+class KeyValuePair<TKey, TValue>
+{
+    public TKey Key { get; set; }
+    public TValue Value { get; set; }
+}
+```
+
 ## Generic Methods
 
 - Methods that can work with any data type.
