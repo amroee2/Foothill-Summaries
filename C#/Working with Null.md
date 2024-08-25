@@ -109,7 +109,31 @@ Adding the annotation would give this as well
 The nullable notation will always be recognized, but it wont show warnings when doing an operation
 ![image](https://github.com/user-attachments/assets/3c5c71cf-f50c-455f-85e5-eb9697db893b)
 
-# To add:
+# Null forgiving operator
 
-1- Null forgiving
-2- The 9 null operations
+The null-forgiving operator is used to suppress the compiler's warnings about possible null references. When you use the ! operator after a variable, you're essentially telling the compiler, "I know this value might be null, but I’m certain it won’t be, so don't warn me about it.
+
+```
+string? name = GetName();  // `name` might be null.
+Console.WriteLine(name!.Length);  // Using `!` to tell the compiler it's safe to call `Length` on `name`.
+```
+
+# Nullable context operations
+
+C# provides three nullable context operations to control the nullability warnings at different scopes (project, file, or code block level):
+
+- nullable enable: Enables nullable reference types for the code that follows.
+- nullable disable: Disables nullable reference types for the code that follows.
+- nullable restore: Restores the nullable context to its default state.
+
+Therefore, we have 9 possible operations:
+
+- nullable enable:	Enables both nullability annotations and warnings.
+- nullable disable:	Disables both nullability annotations and warnings.
+- nullable restore:	Restores both annotations and warnings to default settings.
+- nullable enable warnings:	Enables nullability warnings only, regardless of annotation settings.
+- nullable disable warnings:	Disables nullability warnings only, regardless of annotation settings.
+- nullable restore warnings:	Restores nullability warnings to default settings, ignoring previous directives.
+- nullable enable annotations:	Enables nullability annotations only, without affecting warnings.
+- nullable disable annotations:	Disables nullability annotations only, treating all types as non-nullable.
+- nullable restore annotations:	Restores annotations to default settings, ignoring previous enable or disable directives.
