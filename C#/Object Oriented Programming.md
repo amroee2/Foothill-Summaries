@@ -317,7 +317,7 @@ public class Circle : Shape
 An interface defines a contract that a class or struct must adhere to. It only contains the signatures of methods, properties, events, or indexers, without any implementation (before C# 8.0). From C# 8.0 onward, interfaces can include default implementations.
 
 Features of Interfaces:
-- Only Declarations: Only method, property, event, or indexer declarations (signatures); no fields or constructors.
+- Only Declarations: Only method, property; no fields or constructors.
 - Multiple Inheritance: A class or struct can implement multiple interfaces.
 - No Fields: Unlike java, Interfaces cannot have data fields; all members must be public .
 - Default Implementations (C# 8.0+): Starting from C# 8.0, interfaces can provide default method implementations.
