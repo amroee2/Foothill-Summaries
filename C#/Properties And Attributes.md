@@ -109,31 +109,3 @@ public class MyClass
     }
 }
 ```
-```
-using System;
-using System.Reflection;
-
-public class Program
-{
-    public static void Main()
-    {
-        // Get the type of the class
-        Type type = typeof(MyClass);
-
-        // Retrieve the class attribute
-        SimpleAttribute classAttribute = (SimpleAttribute)Attribute.GetCustomAttribute(type, typeof(SimpleAttribute));
-        if (classAttribute != null)
-        {
-            Console.WriteLine($"Class Attribute Message: {classAttribute.Message}");
-        }
-
-        // Retrieve the method attribute
-        MethodInfo method = type.GetMethod("MyMethod");
-        SimpleAttribute methodAttribute = (SimpleAttribute)Attribute.GetCustomAttribute(method, typeof(SimpleAttribute));
-        if (methodAttribute != null)
-        {
-            Console.WriteLine($"Method Attribute Message: {methodAttribute.Message}");
-        }
-    }
-}
-```
