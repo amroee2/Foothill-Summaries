@@ -29,6 +29,10 @@ A top level or outer class can only be public or internal, nested classes can ha
 
 **Properties in C# are like fields but with built-in getters and setters that allow you to control how the field is accessed and modified.**
 
+There are also **automatic propertes**, which are ones that dont need additional logic for getters and setters.
+
+![image](https://github.com/user-attachments/assets/5c3bf284-283a-4c5a-ba92-afcf39aae951)
+
 ## Methods
 
 Methods in C# are blocks of code that perform specific tasks and can be called upon when needed. They are used to define the behavior of a class and can accept input (parameters), perform operations, and return results.
