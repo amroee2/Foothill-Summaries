@@ -87,13 +87,15 @@ While value types are not reference types and do not extend System.Object in the
 To allow value types like int to be treated as objects, the .NET runtime provides a mechanism called boxing. Boxing wraps a value type in a reference type, allowing it to be used as an object. Once boxed, the value type behaves like any other reference type that derives from System.Object.
 
 **Boxing**
+```
 int num = 123;
 object obj = num; // Boxing: num is converted to an object
-
+```
 **Unboxing**
-
+```
 object obj = 123; // Boxing
 int num = (int)obj;
+```
 
 ## Type conversion
 
