@@ -24,7 +24,7 @@ A top level or outer class can only be public or internal, nested classes can ha
 ![image](https://github.com/user-attachments/assets/7432881b-b7b8-480a-af0c-2a4e2844e6a9)
 
  - Properties: Properties are members that provide a flexible mechanism to read, write, or compute the value of a private field. They are used to encapsulate the fields of a class and add control over how the data is accessed or modified.
- - 
+
 ![image](https://github.com/user-attachments/assets/0493d6ac-eda7-4c2a-a003-879e57be8ab7)
 
 **Properties in C# are like fields but with built-in getters and setters that allow you to control how the field is accessed and modified.**
