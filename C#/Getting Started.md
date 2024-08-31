@@ -10,6 +10,7 @@ From bottom up
 - Namespaces: Namespace is a block of code that can contain multiple classes, but its common convention to use one class per Namespace, they are used to distinct classes from each other if they have the same name, they can also contain other namespaces as well (nested namespaces).
 
 ![image](https://github.com/user-attachments/assets/0ccea3ba-5b35-4023-8709-1911a3faedc1)
+
 The **using** lines above all "call" a certain class from the Namespace.
 
 ![image](https://github.com/user-attachments/assets/5a3d8184-5cb6-4b82-97e0-7f05b1bee1e3)
