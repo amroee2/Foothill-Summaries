@@ -58,7 +58,24 @@ Static members of a class are members that can only be called/accessed by the cl
 In here for example, we only have one inventory, we dont want each instaance of the class to have an inventory of its own, so we declare it as static.
 ![image](https://github.com/user-attachments/assets/adf63f8f-de12-4cf5-935b-51d70ae63093)
 
-There can be static methods as well, and they also can only be called by the class itself, **and can only contain static members of the class**, that applies to both methods and properties. 
+There can be static methods as well, and they also can only be called by the class itself, **and can only contain static members of the class**, that applies to both methods and properties.
+
+Static classes are classes that cant be instaniated or inherit/be inherited, they can only contain static datamembers, can be used for utility classes
+
+```
+public static class MathUtilities
+{
+    public static int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public static int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}
+```
 
 # Object-Oriented Programming (OOP) is centered around four main principles: Encapsulation, Inheritance, Polymorphism, and Abstraction. 
 
