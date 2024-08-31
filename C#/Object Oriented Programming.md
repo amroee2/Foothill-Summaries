@@ -277,6 +277,41 @@ public class Circle : Shape
     }
 }
 ```
+
+```
+public abstract class Shape
+{
+    public int X { get; }
+    public int Y { get; }
+
+    // Constructor in the abstract class
+    public Shape(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    // Abstract method (must be implemented by derived classes)
+    public abstract double CalculateArea();
+}
+
+public class Circle : Shape
+{
+    public int Radius { get; }
+
+    // Constructor in the derived class
+    public Circle(int x, int y, int radius) : base(x, y)
+    {
+        Radius = radius;
+    }
+
+    // Implement the abstract method
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+```
 ## Interfaces
 
 An interface defines a contract that a class or struct must adhere to. It only contains the signatures of methods, properties, events, or indexers, without any implementation (before C# 8.0). From C# 8.0 onward, interfaces can include default implementations.
