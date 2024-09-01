@@ -1,4 +1,6 @@
-# Primary constructors for classes
+# C# 12
+
+## Primary constructors for classes
 
 ```
 // C# 12 Example
@@ -9,7 +11,7 @@ public class Point(int x, int y)
 }
 ```
 
-# Collection expressions
+## Collection expressions
 
 ```
 // Create an array:
@@ -45,6 +47,46 @@ foreach (var element in single)
 // output:
 // 1, 2, 3, 4, 5, 6, 7, 8, 9,
 ```
+## Interceptors
+
+An interceptor is a method which can declaratively substitute a call to an interceptable method with a call to itself at compile time. 
+
+```
+using System;
+using System.Runtime.CompilerServices;
+
+var c = new C();
+c.InterceptableMethod(1); // L1: prints "interceptor 1"
+c.InterceptableMethod(1); // L2: prints "other interceptor 1"
+c.InterceptableMethod(2); // L3: prints "other interceptor 2"
+c.InterceptableMethod(1); // prints "interceptable 1"
+
+class C
+{
+    public void InterceptableMethod(int param)
+    {
+        Console.WriteLine($"interceptable {param}");
+    }
+}
+
+// generated code
+static class D
+{
+    [InterceptsLocation(version: 1, data: "...(refers to the call at L1)")]
+    public static void InterceptorMethod(this C c, int param)
+    {
+        Console.WriteLine($"interceptor {param}");
+    }
+
+    [InterceptsLocation(version: 1, data: "...(refers to the call at L2)")]
+    [InterceptsLocation(version: 1, data: "...(refers to the call at L3)")]
+    public static void OtherInterceptorMethod(this C c, int param)
+    {
+        Console.WriteLine($"other interceptor {param}");
+    }
+}
+```
+
 
 ## Default value for lambda expressions
 ```
