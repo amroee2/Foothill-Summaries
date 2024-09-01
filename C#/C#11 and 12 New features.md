@@ -1,3 +1,22 @@
+# C# 11
+
+## Required
+
+```
+public class Person
+{
+    public required string Name { get; init; }
+    public int Age { get; init; }
+}
+var person = new Person { Name = "Amro", Age = 22 }; // Name is required
+```
+## Generic attributes
+```
+public class ExampleAttribute<T> : Attribute { }
+
+[Example<int>]
+public class MyClass { }
+```
 # C# 12
 
 ## Primary constructors for classes
