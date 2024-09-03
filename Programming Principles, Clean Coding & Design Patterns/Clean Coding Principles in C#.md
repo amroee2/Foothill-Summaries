@@ -224,3 +224,103 @@ When there are a lot of hardcoded values within an operation, and those hardcode
 - Much fewer lines of code
 
 ![image](https://github.com/user-attachments/assets/9cd38305-bcd3-48f2-86d4-c1ee5a9033e0)
+
+
+# Clean Methods
+
+When to create a function/method
+
+- Duplication: When you see a lot of repeated patterns/duplication, its a sigh that a method can be used to simplify code
+- Indentation: When the code is too much indented (arrow shaped), its a sign to create method within these conditionals
+- Unclear intent: We can use functions with expressive name to express our intentions
+- More than one task: When the current block of code does more than one task, its a clean sign to use methods
+
+![image](https://github.com/user-attachments/assets/bc8a9d25-954a-4629-94b6-18e40965e3c3)
+
+## Duplication
+
+Repeated patterns like this can be refactored into methods
+
+![image](https://github.com/user-attachments/assets/89c9ab50-4f8a-4be3-8685-154c6ca70683)
+
+## Excessive indentation
+
+The more the code is shaped as an arrow, the excessive the indentation
+
+![image](https://github.com/user-attachments/assets/616a0e4b-b3c4-415f-b218-2cdce868cbc5)
+
+**Solutions for excessive indentation**
+
+- Extract Method
+- Fail Fast
+- Return Early
+
+![image](https://github.com/user-attachments/assets/76c115f5-c573-4835-bf09-fc3ea238a709)
+
+### Extract Method
+
+![image](https://github.com/user-attachments/assets/0b612970-755f-4cba-b52b-d4bcbae908aa)
+
+### Fail Fast
+
+![image](https://github.com/user-attachments/assets/b3972749-1f5d-4a42-952a-e83f2e45a3cc)
+
+### Return Early
+
+Before
+
+![image](https://github.com/user-attachments/assets/1ff7fd25-aca2-4b8d-80fd-be3fd5eff9eb)
+
+After
+
+![image](https://github.com/user-attachments/assets/b522dbd2-64e5-48fa-9713-c06e279f25ff)
+
+## Convey intent
+
+Use method name to convey intentions
+
+![image](https://github.com/user-attachments/assets/9fa8d257-71c8-4f21-988c-423cda116e20)
+
+## Do One Thing
+
+Methods are like paragraphs in books, they are needed to make the book more readable and easy to understand, and they describe **one thing**
+
+![image](https://github.com/user-attachments/assets/017dd4c8-fea5-417c-bd06-2a7fcf68020d)
+
+## MayFly Variables
+
+MayFly flies are flies that dont live for long, 30m - 24h lifespan.
+
+We can apply the same logic for variables within methods, create a variable only when its needed.
+
+When writing a method that does only one task, the thread will swiftly execute it and use the variables, so with such methods you automatically end up with having MayFly variables.
+
+![image](https://github.com/user-attachments/assets/313d1662-a220-446c-badc-f1cafbad79d2)
+
+## How many paramters?
+
+![image](https://github.com/user-attachments/assets/6f6c61f9-4a87-4843-bf7e-9550909e680b)
+
+Strive to have a few number of variables, having multiple ones can be a sign of a method doing more than one task, also avoid flag arguments as they are unneeded, you can specify the course of an action before calling the method.
+
+![image](https://github.com/user-attachments/assets/b3fd5e1c-6d7c-4335-b149-62efc99bafd2)
+
+![image](https://github.com/user-attachments/assets/00e9194e-c360-4b53-bbc8-078d8a78f88d)
+
+## Signs a method is too long
+
+- White Space and Comments: If a method has a lot of them, to the point it seperates a lot of lines of codes and needs comments to convey intent (not self documenting code), it means that the method can benifit form being split up.
+- Scrolling required
+- Naming issues: If we are struggling to name the method, it might be a sign it does more than one task, and hence need to be split up
+- Multiple Conditionals: As we saw before in arrow shaped block of code, splitting it into multiple methods makes it more readable
+- Hard to digest: If a method complexity is high and its hard to understand, its a sign that splitting it into multiple methods can make it more expressive (self documenting)
+
+**Remember the rule of 7**
+
+![image](https://github.com/user-attachments/assets/4bf23420-12c4-451a-8a2a-9df6198017a6)
+
+## Handling Exceptions
+
+![image](https://github.com/user-attachments/assets/dd7d9648-c2c3-48ae-a7ec-410eeaf30024)
+
+![image](https://github.com/user-attachments/assets/6b8773aa-d2ff-48c8-bf17-6ab60ce1135c)
