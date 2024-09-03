@@ -318,9 +318,3 @@ Strive to have a few number of variables, having multiple ones can be a sign of 
 **Remember the rule of 7**
 
 ![image](https://github.com/user-attachments/assets/4bf23420-12c4-451a-8a2a-9df6198017a6)
-
-## Handling Exceptions
-
-![image](https://github.com/user-attachments/assets/dd7d9648-c2c3-48ae-a7ec-410eeaf30024)
-
-![image](https://github.com/user-attachments/assets/6b8773aa-d2ff-48c8-bf17-6ab60ce1135c)
