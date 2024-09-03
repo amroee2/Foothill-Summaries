@@ -318,3 +318,28 @@ Strive to have a few number of variables, having multiple ones can be a sign of 
 **Remember the rule of 7**
 
 ![image](https://github.com/user-attachments/assets/4bf23420-12c4-451a-8a2a-9df6198017a6)
+
+# Clean Classes
+
+Classes are like headings in books, the heading name gives a general overview about what the paragraphs will talk about, same can be applied to classs names and its methods
+
+**When to create a class?**
+![image](https://github.com/user-attachments/assets/119aed4c-cfee-438a-893d-f36e5b05194c)
+
+## Cohesion
+
+A class methods must be able to worth together and use each other to achieve high cohesion, having a lot of methods that dont work together in the same class can be a sign that new classes being created can be helpful.
+
+![image](https://github.com/user-attachments/assets/941b4989-9f68-40bf-9218-e1e603c706d9)
+
+## Primitive obsession
+
+When trying to apply a method on a class, there is no need to pass all parameters like this, it makes the code much less readable, we can instead simply pass on the reference to the object.
+
+![image](https://github.com/user-attachments/assets/6e1b29bc-4b95-4e34-a389-dd0cf893ec4c)
+
+## Proximity principle
+
+This is a loose role, but try to make a method that calls another next to each other, since we typically read from top to bottom.
+
+![image](https://github.com/user-attachments/assets/07f599ca-b5aa-4b12-a6b5-ad12a1ae03bd)
