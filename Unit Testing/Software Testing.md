@@ -58,4 +58,4 @@ Maintenance testing involves testing the system after it has been modified, to e
 - Testing is important because software bugs could be expensive or even dangerous.
 - The important reasons for using software testing are: cost-effective, security, product quality, and customer satisfaction.
 Typically Testing is classified into three categories functional testing, non-functional testing or performance testing, and maintenance.
-- The important strategies in software engineering are: unit testing, integration testing, validation testing, and system testing.
+- The important strategies in software engineering are: unit testing, integration testing, and system testing.
