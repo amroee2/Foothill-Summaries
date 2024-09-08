@@ -94,7 +94,7 @@ Example: Poorly named variables or complex, unclear logic, like using int x1, x2
 
 ![image](https://github.com/user-attachments/assets/91cb652e-dd68-439e-9171-1ec1ed0e1782)
 
-# Statement code smells
+# Statement Code Smells
 
 These are code smells that occur on statement level (method calling, declaring variables...)
 
@@ -187,3 +187,121 @@ We can simply call them in any order and it might cause problems with the code/l
 Better way to implement this is by having a method that encapsulates the other methods, and have all the inheriting children implement their own functionalities.
 
 ![image](https://github.com/user-attachments/assets/d061b4e5-e1c6-41e0-b002-6c2cd3820bb0)
+
+# Method Code Smells
+
+## Long Method
+A method that has grown too large, doing too much work in one place. This makes it hard to understand, maintain, and reuse.
+
+![image](https://github.com/user-attachments/assets/a727aaa8-02db-46e2-ae55-694a6a255c89)
+
+![image](https://github.com/user-attachments/assets/068411db-b500-481b-9861-9145f7a73a65)
+
+```
+// Before (Long Method)
+void ProcessOrder(Order order)
+{
+    ValidateOrder(order);
+    CheckInventory(order);
+    CalculateDiscounts(order);
+    ApplyTaxes(order);
+    // more logic...
+}
+```
+
+## Obsucred Intent
+
+The purpose of a method or piece of code is not immediately clear to someone reading it, often due to unclear naming or overly complex logic.
+
+```
+// Before (Obscured Intent)
+void DoAction()
+{
+    if (x > 5 && y == 2) { /* logic */ }
+}
+```
+
+## Conditional Complexity
+
+Code with many conditionals (if/else or switch statements) becomes difficult to manage and test.
+
+![image](https://github.com/user-attachments/assets/752c7a4b-987e-4088-a38a-7b44b4c16090)
+
+![image](https://github.com/user-attachments/assets/ba73c7f9-8825-4c29-8772-aeadb5a607ec)
+
+## Inconsistent Abstraction Level
+
+A method mixes different levels of abstraction, e.g., combining high-level business logic with low-level implementation details.
+
+![image](https://github.com/user-attachments/assets/175e9557-a468-406a-9a31-77c13e1c40f2)
+
+```
+// Before (Inconsistent Abstraction)
+void PlaceOrder(Order order)
+{
+    // High-level
+    SaveOrder(order);
+    // Low-level
+    string formattedDate = order.OrderDate.ToString("yyyy-MM-dd");
+}
+```
+
+# Method Refactoring Techniques
+
+## Extract Method <-> Inline Method
+
+Extract Method: Moving part of a long method into a separate method to improve readability.
+
+![image](https://github.com/user-attachments/assets/a4434b36-7b73-4dad-8298-cfb4981697eb)
+
+Inline Method: Merging a method that is too simple and only called in one place back into the calling method.
+
+![image](https://github.com/user-attachments/assets/149c5abd-deee-45d2-933b-cc11a3735155)
+
+## Rename method
+
+![image](https://github.com/user-attachments/assets/a8b5ff65-9213-42d2-9ca4-be4688b965ea)
+
+```
+// Before (Unclear Method Name)
+void DoSomething()
+{
+    // logic
+}
+
+// After (Renamed Method)
+void ValidateOrder()
+{
+    // logic
+}
+```
+
+## Introduce Explaining Variable <-> Inline Temp:
+
+![image](https://github.com/user-attachments/assets/988c92d1-4eeb-4031-a13b-c05d1978d3c4)
+
+![image](https://github.com/user-attachments/assets/97f01345-81c2-4299-8add-20aabf3b2889)
+
+```
+// Before (Complex Expression)
+if (order.Quantity * order.Price > 100) { /* logic */ }
+
+// After (Explaining Variable)
+bool isLargeOrder = order.Quantity * order.Price > 100;
+if (isLargeOrder) { /* logic */ }
+```
+
+## Replace Temp with Query
+
+Replacing temporary variables with method calls when the temporary variable is redundant.
+ 
+![image](https://github.com/user-attachments/assets/8bca903f-4de6-4ec4-8bf8-86c37486ddc2)
+
+```
+// Before
+int basePrice = order.CalculatePrice();
+if (basePrice > 100) { /* logic */ }
+
+// After
+if (order.CalculatePrice() > 100) { /* logic */ }
+```
