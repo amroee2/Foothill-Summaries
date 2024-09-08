@@ -93,3 +93,67 @@ Obfuscators are code smells that make the code harder to read and understand. It
 Example: Poorly named variables or complex, unclear logic, like using int x1, x2, x3; without meaningful names.
 
 ![image](https://github.com/user-attachments/assets/91cb652e-dd68-439e-9171-1ec1ed0e1782)
+
+# Statement code smells
+
+These are code smells that occur on statement level (method calling, declaring variables...)
+
+## Primitive Obsession 
+
+Mentioned before in the Clean Coding principles in C# file, it refers to the overuse of primitive types instead of better abstractions or datastructures
+
+![image](https://github.com/user-attachments/assets/a37f5c87-b894-4389-9d98-b411da30bdc7)
+
+Example
+
+**before**
+
+![image](https://github.com/user-attachments/assets/54ee3e49-93b2-4824-bf94-31ea20b7b0cb)
+
+**After**
+
+![image](https://github.com/user-attachments/assets/a753a815-d5c7-4d66-b07a-368fe8f00235)
+
+We can also replace temp variables with constants or enums (enum for months and another for days for example).
+
+**Primitive obsession can result in a lot of duplicated code, so it's calssified as a bloater code smwell**
+
+## Vertical Separation
+
+Talked about in the Clean Coding principles in C# file as well, it's when variables are defined at the beginning of a method but only used much later, or when a method is called but the actual method is nowhere to be seen.
+
+It's much better to declare variables **when they are needed**, and to make methods just **under the other method calling it** as much as possible.
+
+![image](https://github.com/user-attachments/assets/7f788f41-1729-4011-b28c-5a2038a9163e)
+
+**Vertical Sepearation can make code unnecessarily confusing, classifying it as an Obfuscator**
+
+## Inconsistency
+
+Not being consistent with the naming of variables, methods, classes or any declaration, or even indentations and patterns within the application.
+
+Like not following conventions and excessive indentation 
+![image](https://github.com/user-attachments/assets/f7beddda-cd43-4918-bc5a-6cad940cbfb7)
+
+## Poor names
+
+**Stick with conventions, avoid abbreviations and make sure its descriptive**
+![image](https://github.com/user-attachments/assets/f641f351-f014-4b71-809e-358a4ec657da)
+
+Before
+
+![image](https://github.com/user-attachments/assets/60989346-e6fa-4a8a-82b8-59e1a36a00f7)
+
+After
+
+![image](https://github.com/user-attachments/assets/322fdbbb-f527-4d52-a742-de6f41e2870a)
+
+Have some level of abstraction, assume here we are getting an order from a file, if somewhere in the code we decide to get it from an another source like an api, then our name here would simply be incorrect and **wrong**
+
+Before
+
+![image](https://github.com/user-attachments/assets/1acbc7e0-451e-4596-a15f-1ddf47db0a38)
+
+After
+
+![image](https://github.com/user-attachments/assets/fa843b87-a36f-4602-9531-c3a2d207b64a)
