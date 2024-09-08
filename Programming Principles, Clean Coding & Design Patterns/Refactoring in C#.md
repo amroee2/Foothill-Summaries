@@ -157,3 +157,33 @@ Before
 After
 
 ![image](https://github.com/user-attachments/assets/fa843b87-a36f-4602-9531-c3a2d207b64a)
+
+## Switch Statements
+
+One or two switch statements are fine, but when they are used a lot in code, it would probably best to consider inheritance and polymorphism as an another approach.
+
+![image](https://github.com/user-attachments/assets/46f12f19-3534-455f-a9e9-b9fc59ce1294)
+
+![image](https://github.com/user-attachments/assets/c662bbc0-e6be-498a-98a9-1abd69ec8c0f)
+
+## Dead code
+
+This doesnt refer to commented out code, but code that exists in the codebase and can be called and used but they are not, they have no value and can just be safely deleted.
+
+![image](https://github.com/user-attachments/assets/aac9b6d5-0108-4485-8dbe-d4df12ff326a)
+
+## Hidden Temporal Coupling
+
+It's when your class or program must follow a certain functionality for it to work correctly, but there is nothing that enforces such functionality.
+
+![image](https://github.com/user-attachments/assets/aef5d486-3823-433f-97de-bc35038ff580)
+
+Imagine if we have baked goods class, with these methods
+
+We can simply call them in any order and it might cause problems with the code/logic
+
+![image](https://github.com/user-attachments/assets/319153c5-d74d-449e-809a-6f949a9b72b8)
+
+Better way to implement this is by having a method that encapsulates the other methods, and have all the inheriting children implement their own functionalities.
+
+![image](https://github.com/user-attachments/assets/d061b4e5-e1c6-41e0-b002-6c2cd3820bb0)
