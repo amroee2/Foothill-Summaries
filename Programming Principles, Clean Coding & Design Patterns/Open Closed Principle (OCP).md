@@ -45,7 +45,7 @@ We can convert InvoicePersistance to an interface:
 ```csharp
 interface InvoicePersistence {
 
-    public void save(Invoice invoice);
+    void save(Invoice invoice);
 }
 
 ```
@@ -53,16 +53,14 @@ interface InvoicePersistence {
 Then add 2 new classes, one to implement save to file and the other for database
 
 ```csharp
-public class DatabasePersistence implements InvoicePersistence {
+public class DatabasePersistence : InvoicePersistence {
 
-    @Override
     public void save(Invoice invoice) {
         // Save to DB
     }
 }
-public class FilePersistence implements InvoicePersistence {
+public class FilePersistence : InvoicePersistence {
 
-    @Override
     public void save(Invoice invoice) {
         // Save to file
     }
