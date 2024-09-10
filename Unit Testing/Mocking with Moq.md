@@ -217,3 +217,55 @@ This test passes
 ```
 
 SetupAllProperties also gives all properties their default values (0 for int, false for boolean...).
+
+# Behavior based testing VS State based testing
+
+So far, what we have been doing is called **State based testing**, where we call a method in a class, and this class interacts with the mocked object, and then we can assert its value.
+
+![image](https://github.com/user-attachments/assets/1676feee-11d9-4913-8c18-3aa6de347684)
+
+In **Behavior based testing**, we verify that the actual Mocking object details.
+
+![image](https://github.com/user-attachments/assets/5bd1a138-8469-4a9e-b640-19eae8e51eba)
+
+## Behavior based testing examples
+
+```csharp
+    public void PlaceOrder_WhenProductIsInStock_ShouldReturnTrue()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>();
+        inventoryServiceMock.Setup(x => x.IsProductInStock(It.IsAny<int>())).Returns(true);
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.PlaceOrder(1);
+
+        // Assert
+        inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Once);
+    }
+```
+
+in this example, we can verify that the IsProductInStock was called only **once**, different variations
+
+```inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Never);```
+
+```inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Exactly(3));```
+
+```inventoryServiceMock.Verify(x => x.IsProductInStock(It.IsAny<int>()), Times.Once);```
+
+```inventoryServiceMock.Verify(x => x.IsProductInStock(It.Is<int>(id => id > 0)), Times.Once);```
+
+```
+inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Once);
+inventoryServiceMock.Verify(x => x.AnotherMethod(It.IsAny<int>()), Times.AtLeastOnce);
+```
+
+For properties as well
+
+```inventoryServiceMock.VerifyGet(x => x.IsValid);```
+
+```inventoryServiceMock.VerifyGet(x => x.IsValid, Times.Never);```
+
+```mock.VerifySet(x => x.IsValid = It.IsAny<string>(), Times.Once);```
