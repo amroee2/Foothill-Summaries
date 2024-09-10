@@ -198,7 +198,7 @@ When using the Setup we talked about before, the changes are tracked, and it wil
 
 This test passes
 
-```
+```csharp
     public void CheckIfValid_WhenStringIsValid_ShouldReturnTrue()
     {
         // Arrange
