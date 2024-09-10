@@ -18,7 +18,7 @@ Then set it up for the project you want to test on
 
 Assume we have this class
 
-```
+```csharp
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -128,8 +128,8 @@ To write unit tests, we can simpply create a method, add the **Fact** data attri
 - Arrange: Set up the conditions, objects, and any required data for the test.
 - Act: Perform the action that you want to test, usually calling a method.
 - Assert: Verify that the result or behavior matches the expected outcome.
-- 
-```
+
+```csharp
 using System;
 using Xunit;
 
@@ -150,7 +150,7 @@ namespace GameEngine.Tests
 
 ## Testing strings
 
-```
+```csharp
   [Fact]
   public void CalculateFullName()
   {
@@ -220,7 +220,7 @@ namespace GameEngine.Tests
 
 ## Testing neumerics
 
-```
+```csharp
 [Fact]
 public void StartWithDefaultHealth()
 {
@@ -251,7 +251,7 @@ public void IncreaseHealthAfterSleeping()
 
 ## Testing Null
 
-```
+```csharp
 [Fact]
 public void NotHaveNickNameByDefault()
 {
@@ -263,7 +263,7 @@ public void NotHaveNickNameByDefault()
 
 ## Testing Collections
 
-```
+```csharp
 [Fact]
 public void HaveALongBow()
 {
@@ -314,7 +314,7 @@ public void HaveNoEmptyDefaultWeapons()
 
 ## Testing reference types
 
-```
+```csharp
 [Fact]
 public void CreateNormalEnemyByDefault()
 {
@@ -384,7 +384,7 @@ public void CreateSeparateInstances()
 
 ## Testing exception
 
-```
+```csharp
 [Fact]
 public void NotAllowNullName()
 {
@@ -410,6 +410,3 @@ public void OnlyAllowKingOrQueenBossEnemies()
 ![image](https://github.com/user-attachments/assets/eb6aeace-5f63-408b-885d-fb46879cbb4b)
 
 ![image](https://github.com/user-attachments/assets/62b4cb82-70b7-4c0e-ad18-b7c7e0c40e08)
-
-
-# Controlling Tests
