@@ -269,3 +269,64 @@ For properties as well
 ```inventoryServiceMock.VerifyGet(x => x.IsValid, Times.Never);```
 
 ```mock.VerifySet(x => x.IsValid = It.IsAny<string>(), Times.Once);```
+
+
+# Mocking with async
+
+```csharp
+
+// Arrange
+var mock = new Mock<IInventoryService>();
+
+// Setup the async method
+mock.Setup(x => x.GetProductAsync(It.IsAny<int>())).ReturnsAsync(new Product { Id = 1, Name = "Sample" });
+
+// Act
+var product = await mock.Object.GetProductAsync(1);
+
+// Assert
+Assert.NotNull(product);
+Assert.Equal(1, product.Id);
+Assert.Equal("Sample", product.Name);
+```
+
+With exception
+
+```csharp
+
+// Arrange
+var mock = new Mock<IInventoryService>();
+
+// Setup the async method to throw an exception
+mock.Setup(x => x.GetProductAsync(It.IsAny<int>())).ThrowsAsync(new Exception("Test Exception"));
+
+// Act & Assert
+var ex = await Assert.ThrowsAsync<Exception>(() => mock.Object.GetProductAsync(1));
+Assert.Equal("Test Exception", ex.Message);
+
+```
+
+With conditionals
+
+```csharp
+
+// Arrange
+var mock = new Mock<IInventoryService>();
+
+// Setup the async method with conditional logic
+mock.Setup(x => x.GetProductAsync(It.Is<int>(id => id > 0)))
+    .ReturnsAsync(new Product { Id = 1, Name = "Valid Product" });
+
+mock.Setup(x => x.GetProductAsync(It.Is<int>(id => id <= 0)))
+    .ReturnsAsync((Product)null);
+
+// Act
+var validProduct = await mock.Object.GetProductAsync(1);
+var invalidProduct = await mock.Object.GetProductAsync(0);
+
+// Assert
+Assert.NotNull(validProduct);
+Assert.Equal("Valid Product", validProduct.Name);
+Assert.Null(invalidProduct);
+
+```
