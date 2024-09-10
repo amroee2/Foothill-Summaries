@@ -49,7 +49,7 @@ Without DIP, high-level modules would be tightly coupled with the implementation
 Example: Before Applying Dependency Inversion
 Let’s say we have a system where a Notification service depends on a concrete EmailService class to send emails:
 
-csharp
+```csharp
 Copy code
 // Low-level module
 public class EmailService
@@ -75,7 +75,7 @@ public class Notification
         _emailService.SendEmail(message);
     }
 }
-
+```
 In this example:
 
 The Notification class (high-level module) is tightly coupled with the EmailService class (low-level module).
