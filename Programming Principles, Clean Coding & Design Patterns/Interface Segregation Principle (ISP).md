@@ -78,3 +78,10 @@ public class Manager : IWorker, IManager
     }
 }
 ```
+
+Benefits of Interface Segregation Principle:
+
+- Code Flexibility: Classes implement only the methods they need, making them easier to maintain.
+- Reusability: Small interfaces are more reusable, as they target specific roles or behaviors.
+- Avoid Unnecessary Dependencies: Clients are not forced to depend on or implement methods that they do not need.
+- Reduces the Impact of Changes: Since classes implement only what they use, changes in one part of the system (such as adding new methods to interfaces) won’t unnecessarily affect other parts.
