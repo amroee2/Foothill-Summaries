@@ -50,7 +50,6 @@ Example: Before Applying Dependency Inversion
 Let’s say we have a system where a Notification service depends on a concrete EmailService class to send emails:
 
 ```csharp
-Copy code
 // Low-level module
 public class EmailService
 {
