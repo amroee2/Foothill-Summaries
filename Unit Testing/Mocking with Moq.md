@@ -67,6 +67,8 @@ After defining an instance of the orderService class using the .Object property 
 
 Finally we can assert the result, and make sure that the mocking IsProductInStock method was accessed through the Verify method in the end
 
+This test passes
+
 ```csharp
     [Fact]
     public void PlaceOrder_WhenProductIsInStock_ShouldReturnTrue()
@@ -86,3 +88,132 @@ Finally we can assert the result, and make sure that the mocking IsProductInStoc
     }
 ```
 
+## Loose Vs Strict Moqs
+
+- Loose mocks (default in Moq): Methods return default values (like null for objects, 0 for integers) when not explicitly set up.
+- Strict mocks: Every method that is called must be explicitly set up, or the mock will throw an exception if an unexpected method is called.
+
+Example
+
+Assume we have this same method, but this time we always return **false**
+
+```csharp
+    [Fact]
+    public void PlaceOrder_WhenProductIsNotInStock_ShouldReturnFalse()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>();
+        inventoryServiceMock.Setup(x => x.IsProductInStock(It.IsAny<int>())).Returns(false);
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.PlaceOrder(1);
+
+        // Assert
+        Assert.False(result);
+        inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Once);
+    }
+```
+
+This test passes, but we don't need to setup in this method as ```IsProductInStock``` is a **boolean** method, which means it will return false by default.
+
+This test also passes.
+
+```csharp
+    [Fact]
+    public void PlaceOrder_WhenProductIsNotInStock_ShouldReturnFalse()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>();
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.PlaceOrder(1);
+
+        // Assert
+        Assert.False(result);
+        inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Once);
+    }
+```
+
+This default behavior is part of **Loose** mode in Moq.
+
+Using Strict mode
+
+```csharp
+    [Fact]
+    public void PlaceOrder_WhenProductIsNotInStock_ShouldReturnFalse_StrictMock()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>(MockBehavior.Strict);
+        inventoryServiceMock.Setup(x => x.IsProductInStock(It.IsAny<int>())).Returns(false);
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.PlaceOrder(1);
+
+        // Assert
+        Assert.False(result);
+        inventoryServiceMock.Verify(x => x.IsProductInStock(1), Times.Once);
+    }
+```
+
+This test uses strict mode, which means that **every method in the interface must be implemented in the mocking process, otherwise it will cause an exception**
+
+If we where to remove the setup line, we would get this when running the test:
+
+![image](https://github.com/user-attachments/assets/baac7a61-bef4-43c9-beb0-231ece0b6a4b)
+
+If any new method was added into the interface, **it must be implemented**, even if its not called or used during the testing process.
+
+## Tracking changes
+
+By default, when you setup a mocking value without using the **setup** keyword, it will not be "saved"
+
+This test **does not pass**
+
+```csharp
+
+    public void CheckIfValid_WhenStringIsValid_ShouldReturnTrue()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>();
+        inventoryServiceMock.Object.IsValid = "valid";
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.CheckIfValid("valid");
+
+        // Assert
+        Assert.Equal("valid", inventoryServiceMock.Object.IsValid);
+    }
+
+```
+
+When using the Setup we talked about before, the changes are tracked, and it will work fine, but another way to do this is through ```mock.SetupAllProperties()```
+
+This test passes
+
+```
+    public void CheckIfValid_WhenStringIsValid_ShouldReturnTrue()
+    {
+        // Arrange
+        var inventoryServiceMock = new Mock<IInventoryService>();
+        inventoryServiceMock.SetupAllProperties();  // Automatically tracks all property changes
+        inventoryServiceMock.Object.IsValid = "valid";
+
+        var orderService = new OrderService(inventoryServiceMock.Object);
+
+        // Act
+        var result = orderService.CheckIfValid("valid");
+
+        // Assert
+        Assert.Equal("valid", inventoryServiceMock.Object.IsValid);
+    }
+```
+
+SetupAllProperties also gives all properties their default values (0 for int, false for boolean...).
