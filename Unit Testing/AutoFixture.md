@@ -372,3 +372,105 @@ Residue Collectors:
 
 - Example: If a specific type of object has not been explicitly customized or built using the default mechanisms, the residue collectors ensure that the object is still generated, even if it's more generic.
 
+# Improving Tests
+
+## Parameterized xUnit.net Tests with Anonymous Data
+
+Explanation:
+
+- Parameterized tests in xUnit.net allow you to run a test method multiple times with different inputs.
+- Anonymous data refers to data that is automatically generated, often using libraries like AutoFixture, to avoid hardcoding test values.
+- By using AutoFixture, you can inject random values into your tests without having to manually specify them.
+
+```csharp
+public class Calculator
+{
+    public int Add(int x, int y) => x + y;
+}
+
+public class CalculatorTests
+{
+    [Theory, AutoData]  // AutoData attribute is used to automatically generate anonymous data
+    public void Add_ShouldReturnSum_WhenGivenTwoIntegers(int x, int y, Calculator sut)
+    {
+        // Act
+        var result = sut.Add(x, y);
+
+        // Assert
+        Assert.Equal(x + y, result);  // The values of x and y are generated anonymously
+    }
+}
+```
+
+## Auto-mocking with AutoFixture and Moq
+
+Explanation:
+
+- Auto-mocking allows you to automatically create mock objects (like dependencies) using AutoFixture combined with Moq (a popular mocking library in .NET).
+
+- This is helpful when testing objects with dependencies, as AutoFixture will automatically create mocks without needing you to manually configure them.
+
+```csharph
+public class Service
+{
+    private readonly IRepository _repository;
+    public Service(IRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public string GetData()
+    {
+        return _repository.FetchData();
+    }
+}
+
+public interface IRepository
+{
+    string FetchData();
+}
+
+public class ServiceTests
+{
+    [Fact]
+    public void GetData_ShouldReturnExpectedValue()
+    {
+        // Arrange
+        var fixture = new Fixture().Customize(new AutoMoqCustomization());
+        var mockRepository = fixture.Freeze<Mock<IRepository>>();  // Freezes a mock instance
+        mockRepository.Setup(repo => repo.FetchData()).Returns("Test Data");
+
+        var sut = fixture.Create<Service>();
+
+        // Act
+        var result = sut.GetData();
+
+        // Assert
+        Assert.Equal("Test Data", result);
+    }
+}
+```
+
+## Combining Auto Mocking and Auto Data in xUnit.net
+
+Explanation:
+- This topic involves using both Auto-mocking (as discussed above) and Auto Data together in a test method, combining the power of automatically generated test data and mock dependencies.
+- This is useful for writing clean and maintainable tests that require minimal configuration.
+
+```csharp
+public class ServiceTests
+{
+    [Theory, AutoMoqData]  // Combining AutoMocking and AutoData with AutoMoqData attribute
+    public void GetData_ShouldReturnExpectedValue(Service sut, Mock<IRepository> mockRepository)
+    {
+        // Arrange
+        mockRepository.Setup(repo => repo.FetchData()).Returns("Test Data");
+
+        // Act
+        var result = sut.GetData();
+
+        // Assert
+        Assert.Equal("Test Data", result);
+    }
+}
+```
