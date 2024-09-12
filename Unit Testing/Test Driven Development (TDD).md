@@ -659,3 +659,149 @@ namespace TDD
     }
 }
 ```
+
+We want to add another feature, we labels desks with Ids and we assign each booking to that id
+
+Notice that we initialized a desk in the constructor in the tesk class with Id 7, now the test will fail
+
+```csharp
+
+using DeskBookingSystem.DataInterface;
+using DeskBookingSystem.Domain;
+using DeskBookingSystem.Processor;
+using Moq;
+
+namespace TDD
+{
+    public class DeskBookingProcessorTests
+    {
+        private readonly DeskBookingRequestProcessor _processor;
+        private readonly List<Desk> _availableDesks;
+        private readonly Mock<IDeskRepository> _deskRepositroyMock;
+        private readonly DeskBookingRequest _request;
+        private readonly Mock<IDeskBookingRepository> _database;
+        public DeskBookingProcessorTests()
+        {
+            _request = new DeskBookingRequest
+            {
+                FirstName = "Amro",
+                LastName = "Qadadha",
+                Email = "amroqadadha@gmail.com",
+                DateTime = DateTime.Now
+            };
+
+            _database = new Mock<IDeskBookingRepository>();
+            _deskRepositroyMock = new Mock<IDeskRepository>();
+            _processor = new DeskBookingRequestProcessor(_database.Object, _deskRepositroyMock.Object);
+            _availableDesks = new List<Desk> { new Desk { Id = 7 } };
+            _deskRepositroyMock.Setup(x => x.GetAvailableDesks(_request.DateTime)).Returns(_availableDesks);
+        }
+        [Fact]
+        public void ShouldProcessRequests()
+        {
+            var response = _processor.BookDesk(_request);
+
+            Assert.Equal(_request.FirstName, response.FirstName);
+            Assert.Equal(_request.LastName, response.LastName);
+            Assert.Equal(_request.Email, response.Email);
+            Assert.Equal(_request.DateTime, response.DateTime);
+
+        }
+        [Fact]
+        public void ShouldReturnArgumentNullExceptionIfRequestIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => _processor.BookDesk(null));
+
+            Assert.Equal("request", exception.ParamName);
+        }
+        [Fact]
+        public void ShouldStoreBooking()
+        {
+            var savedDeskBooking = new DeskBooking();
+            _database.Setup(x => x.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(deskBooking =>
+            {
+                savedDeskBooking = deskBooking;
+            });
+            var response = _processor.BookDesk(_request);
+            _database.Verify(x => x.Save(It.IsAny<DeskBooking>()), Times.Once);
+            Assert.NotNull(savedDeskBooking);
+            Assert.Equal(_request.FirstName, savedDeskBooking.FirstName);
+            Assert.Equal(_request.LastName, savedDeskBooking.LastName);
+            Assert.Equal(_request.Email, savedDeskBooking.Email);
+            Assert.Equal(_request.DateTime, savedDeskBooking.DateTime);
+            Assert.Equal(_availableDesks.First().Id, savedDeskBooking.DeskId);
+        }
+        [Fact]
+        public void ShouldNotStoreBookingIfNoDeskIsAvailable()
+        {
+            _availableDesks.Clear();
+            _processor.BookDesk(_request);
+            _database.Verify(x => x.Save(It.IsAny<DeskBooking>()), Times.Never);
+        }
+    }
+}
+```
+
+```csharp
+namespace DeskBookingSystem.Domain
+{
+    public class Desk
+    {
+       public int Id { get; set; }
+    }
+}
+namespace DeskBookingSystem.Domain
+{
+    public class DeskBooking : DeskBookingBase
+    {
+        public int DeskId { get; set; }
+    }
+}
+```
+
+![image](https://github.com/user-attachments/assets/3d7f25b0-6989-44a4-a3b8-f2f9fb833cd5)
+
+Now we implement the new feature
+
+```csharp
+
+        public DeskBookingResponse BookDesk(DeskBookingRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (_deskRepositroy.GetAvailableDesks(request.DateTime).Count() > 0)
+            {
+                var deskBooking = CreateBooking<DeskBooking>(request);
+                deskBooking.DeskId = _deskRepositroy.GetAvailableDesks(request.DateTime).First().Id;
+                _deskBookingRepository.Save(deskBooking);
+            }
+
+            return CreateBooking<DeskBookingResponse>(request);
+        }
+
+```
+
+Test now passes
+
+We can refactor the code to use LINQ like this
+
+```csharp
+
+        public DeskBookingResponse BookDesk(DeskBookingRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (_deskRepositroy.GetAvailableDesks(request.DateTime).Any())
+            {
+                var deskBooking = CreateBooking<DeskBooking>(request);
+                deskBooking.DeskId = _deskRepositroy.GetAvailableDesks(request.DateTime).First().Id;
+                _deskBookingRepository.Save(deskBooking);
+            }
+
+            return CreateBooking<DeskBookingResponse>(request);
+        }
+```
