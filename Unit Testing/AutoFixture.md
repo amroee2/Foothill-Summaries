@@ -192,3 +192,117 @@ public class AnnotatedPassenger
 var randomAnnotatedPassenger = fixture.Create<AnnotatedPassenger>();
 Console.WriteLine($"{randomAnnotatedPassenger.Name}, {randomAnnotatedPassenger.Age}");
 ```
+
+# Customizing AutoFixture
+
+## .Inject()
+
+The .Inject() method in AutoFixture is used to predefine specific values for a type. Once a value is injected, every instance of that type created by AutoFixture will have the injected value instead of being randomly generated. It's useful when you want to ensure that specific types always have a predefined, consistent value throughout your tests.
+
+```csharp
+var fixture = new Fixture();
+fixture.Inject(42);
+
+var number = fixture.Create<int>();
+Console.WriteLine(number);  // Output: 42
+```
+
+```csharp
+var fixture = new Fixture();
+fixture.Inject("TestString");
+
+var str1 = fixture.Create<string>();
+var str2 = fixture.Create<string>();
+
+Console.WriteLine(str1);  // Output: "TestString"
+Console.WriteLine(str2);  // Output: "TestString"
+```
+
+```csharp
+var fixture = new Fixture();
+var specificPassenger = new Passenger { Name = "Amro", Age = 30 };
+
+// Inject the specific Passenger instance
+fixture.Inject(specificPassenger);
+
+// Every time you create a Passenger, it will return the injected one
+var passenger1 = fixture.Create<Passenger>();
+var passenger2 = fixture.Create<Passenger>();
+
+Console.WriteLine(passenger1.Name);  // Output: "Amro"
+Console.WriteLine(passenger2.Age);   // Output: 30
+```
+
+## .Customize()
+
+Used to customize all instances of the type passed to fixture, for example in this method, **all passenger instances have Name property = "Amro".
+
+```csharp
+
+        [Fact]
+        public void TestPassengerName()
+        {
+            var fixture = new Fixture();
+
+            // Customizing the Name property to always be "Amro"
+            fixture.Customize<Passenger>(composer => composer.With(p => p.Name, "Amro"));
+            var passenger = fixture.Create<Passenger>();
+
+            var passenger2 = fixture.Create<Passenger>();
+
+            var passenger3 = fixture.Create<Passenger>();   
+
+            Assert.Equal("Amro", passenger.Name);
+        }
+```
+
+## .Build()
+
+Unlike .Customize, build only returns one instances with the specified customizations
+
+Here only the first passenger has Name property set to "Amro", the others have anonymous values.
+
+```csharp
+        public void TestPassengerName()
+        {
+            var fixture = new Fixture();
+
+            // Customizing the Name property to always be "Amro"
+           
+            var passenger = fixture.Build<Passenger>().With(p => p.Name, "Amro").Create();
+
+            var passenger2 = fixture.Create<Passenger>();
+
+            var passenger3 = fixture.Create<Passenger>();   
+
+            Assert.Equal("Amro", passenger.Name);
+        }
+```
+
+## .Freeze
+
+Freezing a value ensures that the same instance is used whenever AutoFixture is asked for that type during the test. This is useful for dependencies like mock objects or commonly shared instances in a test.
+
+```csharp
+var fixture = new Fixture();
+
+// Freezing ensures that the same email is used for every call to fixture.Create<MailAddress>()
+var frozenEmail = fixture.Freeze<MailAddress>();
+
+// Now any other object that needs an email will get the same frozen one
+var passenger1 = fixture.Create<Passenger>(); // Uses frozen email
+var passenger2 = fixture.Create<Passenger>(); // Uses frozen email
+
+Console.WriteLine(passenger1.Email == passenger2.Email);  // Output: True
+```
+
+# Spicemens and AutoFixture pipleline
+
+A specimen is any value that AutoFixture creates during the object generation process. The AutoFixture Pipeline handles the generation of specimens and can be customized using specimen builders.
+
+![image](https://github.com/user-attachments/assets/c0c66add-e54a-4958-9d6a-d64f065631e8)
+
+![image](https://github.com/user-attachments/assets/9e3a4248-9528-4279-889f-308a79bb1253)
+
+![image](https://github.com/user-attachments/assets/b9015c72-4360-4c4d-8239-35041873585a)
+
