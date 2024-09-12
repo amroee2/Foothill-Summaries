@@ -371,3 +371,4 @@ Residue Collectors:
 - These are responsible for handling the creation of objects that do not match any specific customization or default rules. They ensure that the pipeline can still return objects, even if they don’t follow predefined rules.
 
 - Example: If a specific type of object has not been explicitly customized or built using the default mechanisms, the residue collectors ensure that the object is still generated, even if it's more generic.
+
