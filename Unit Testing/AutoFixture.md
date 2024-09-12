@@ -400,6 +400,22 @@ public class CalculatorTests
         Assert.Equal(x + y, result);  // The values of x and y are generated anonymously
     }
 }
+using Xunit;
+using AutoFixture.Xunit2;
+
+public class CalculatorTests
+{
+    [Theory, InlineAutoData(2, 3)]  // InlineAutoData allows you to specify values (e.g., 2 and 3) and AutoFixture generates the rest
+    public void Add_ShouldReturnSum_WhenGivenSpecificIntegers(int x, int y, Calculator sut)
+    {
+        // Act
+        var result = sut.Add(x, y);
+
+        // Assert
+        Assert.Equal(x + y, result);
+    }
+}
+
 ```
 
 ## Auto-mocking with AutoFixture and Moq
@@ -410,7 +426,7 @@ Explanation:
 
 - This is helpful when testing objects with dependencies, as AutoFixture will automatically create mocks without needing you to manually configure them.
 
-```csharph
+```csharp
 public class Service
 {
     private readonly IRepository _repository;
