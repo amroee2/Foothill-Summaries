@@ -509,3 +509,153 @@ namespace TDD
     }
 }
 ```
+
+Adding new feature => check available desks, same idea
+
+1- New interface IDeskRepository
+2- New class Desk
+
+```csharp
+using DeskBookingSystem.Domain;
+
+namespace DeskBookingSystem.DataInterface
+{
+    public interface IDeskRepository
+    {
+        IEnumerable<Desk> GetAvailableDesks(DateTime date);
+    }
+}
+```
+
+```csharp
+namespace DeskBookingSystem.Domain
+{
+    public class Desk
+    {
+    }
+}
+```
+
+After applying all cycles, test and processor class should look like this
+```csharp
+using DeskBookingSystem.DataInterface;
+using DeskBookingSystem.Domain;
+
+namespace DeskBookingSystem.Processor
+{
+    public class DeskBookingRequestProcessor
+    {
+        public IDeskBookingRepository _deskBookingRepository;
+        private IDeskRepository _deskRepositroy;
+
+        public DeskBookingRequestProcessor(IDeskBookingRepository deskBookingRepository, IDeskRepository deskRepository)
+        {
+            _deskBookingRepository = deskBookingRepository;
+            _deskRepositroy = deskRepository;
+
+        }
+
+        public DeskBookingResponse BookDesk(DeskBookingRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (_deskRepositroy.GetAvailableDesks(request.DateTime).Count() > 0)
+            {
+                _deskBookingRepository.Save(CreateBooking<DeskBooking>(request));
+            }
+
+            return CreateBooking<DeskBookingResponse>(request);
+        }
+        public T CreateBooking<T>(DeskBookingBase desk) where T : DeskBookingBase, new()
+        {
+            return new T
+            {
+                FirstName = desk.FirstName,
+                LastName = desk.LastName,
+                Email = desk.Email,
+                DateTime = desk.DateTime
+            };
+        }
+    }
+}
+```
+
+```csharp
+
+using DeskBookingSystem.Domain;
+using DeskBookingSystem.Processor;
+using Moq;
+using DeskBookingSystem.DataInterface;
+
+namespace TDD
+{
+    public class DeskBookingProcessorTests
+    {
+        private readonly DeskBookingRequestProcessor _processor;
+        private readonly List<Desk> _availableDesks;
+        private readonly Mock<IDeskRepository> _deskRepositroyMock;
+        private readonly DeskBookingRequest _request;
+        private readonly Mock<IDeskBookingRepository> _database;
+        public DeskBookingProcessorTests()
+        {
+            _request = new DeskBookingRequest
+            {
+                FirstName = "Amro",
+                LastName = "Qadadha",
+                Email = "amroqadadha@gmail.com",
+                DateTime = DateTime.Now
+            };
+
+            _database = new Mock<IDeskBookingRepository>();
+            _deskRepositroyMock = new Mock<IDeskRepository>();
+            _processor = new DeskBookingRequestProcessor(_database.Object, _deskRepositroyMock.Object);
+            _availableDesks = new List<Desk> { new Desk() };
+            _deskRepositroyMock.Setup(x => x.GetAvailableDesks(_request.DateTime)).Returns(_availableDesks);
+        }
+        [Fact]
+        public void ShouldProcessRequests()
+        {
+
+            var response = _processor.BookDesk(_request);
+
+            Assert.Equal(_request.FirstName, response.FirstName);
+            Assert.Equal(_request.LastName, response.LastName);
+            Assert.Equal(_request.Email, response.Email);
+            Assert.Equal(_request.DateTime, response.DateTime);
+
+        }
+        [Fact]
+        public void ShouldReturnArgumentNullExceptionIfRequestIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => _processor.BookDesk(null));
+
+            Assert.Equal("request", exception.ParamName);
+        }
+        [Fact]
+        public void ShouldStoreBooking()
+        {
+            var savedDeskBooking = new DeskBooking();
+            _database.Setup(x => x.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(deskBooking =>
+            {
+                savedDeskBooking = deskBooking;
+            });
+            var response = _processor.BookDesk(_request);
+            _database.Verify(x => x.Save(It.IsAny<DeskBooking>()), Times.Once);
+            Assert.NotNull(savedDeskBooking);
+            Assert.Equal(_request.FirstName, savedDeskBooking.FirstName);
+            Assert.Equal(_request.LastName, savedDeskBooking.LastName);
+            Assert.Equal(_request.Email, savedDeskBooking.Email);
+            Assert.Equal(_request.DateTime, savedDeskBooking.DateTime);
+        }
+        [Fact]
+        public void ShouldNotStoreBookingIfNoDeskIsAvailable()
+        {
+            _availableDesks.Clear();
+            _processor.BookDesk(_request);
+            _database.Verify(x => x.Save(It.IsAny<DeskBooking>()), Times.Never);
+        }
+    }
+}
+```
