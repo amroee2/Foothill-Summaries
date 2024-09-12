@@ -321,7 +321,7 @@ Test should look like this, and it will faill
 
 Now in the next step in the cycle, we need to introduce the dependency through DIP constructor injection, call the save method in the BookDesk method, and then run the tests again. 
 
-After applying these modifications, the test now ill pass.
+After applying these modifications, the test now will pass.
 
 ```csharp
 
