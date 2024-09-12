@@ -302,7 +302,72 @@ A specimen is any value that AutoFixture creates during the object generation pr
 
 ![image](https://github.com/user-attachments/assets/c0c66add-e54a-4958-9d6a-d64f065631e8)
 
+The ISpecimenBuilder interface defines a method for creating specimens (test objects or values). If you want to create customized objects, you can implement this interface to specify how the object should be built.
+
 ![image](https://github.com/user-attachments/assets/9e3a4248-9528-4279-889f-308a79bb1253)
+
+Example
+
+```csharp
+public class CustomDateSpecimenBuilder : ISpecimenBuilder
+{
+    public object Create(object request, ISpecimenContext context)
+    {
+        if (request is Type type && type == typeof(DateTime))
+        {
+            return new DateTime(2000, 1, 1); // Always return this date
+        }
+        return new NoSpecimen();
+    }
+}
+```
+
+```csharp
+using System;
+using Xunit;
+using AutoFixture;
+using AutoFixture.Kernel;
+
+public class DateTimeSpecimenTests
+{
+    [Fact]
+    public void CustomDateSpecimenBuilder_ShouldReturn_CustomDate()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        // Add the custom specimen builder for DateTime
+        fixture.Customizations.Add(new CustomDateSpecimenBuilder());
+
+        // Act
+        DateTime generatedDate = fixture.Create<DateTime>();
+
+        // Assert
+        Assert.Equal(new DateTime(2000, 1, 1), generatedDate);
+    }
+}
+```
+In AutoFixture, the Fixture Pipeline refers to the process that builds objects (or "specimens") for use in testing. This pipeline consists of three main stages:
 
 ![image](https://github.com/user-attachments/assets/b9015c72-4360-4c4d-8239-35041873585a)
 
+Customizations:
+
+- This step allows the user to customize how objects are created. For example, you can configure specific properties or rules for how certain types of objects should be constructed.
+  
+- Example: If you want AutoFixture to always generate a specific value for a certain field in your tests (e.g., always setting the Id property of a User object to 1), you can define this rule in the customizations stage.
+
+Default Specimen Builders ("Engine"):
+
+- These are the default mechanisms that AutoFixture uses to build objects. When you request an object, AutoFixture attempts to construct it based on its default behaviors unless customized otherwise.
+A "specimen" is simply the object or value generated during the testing process. In this context, the term specimen refers to a "test object."
+
+- The ISpecimenBuilder interface represents an abstraction for creating these specimens. Developers can implement this interface to define custom ways of creating objects.
+
+- Example: AutoFixture can automatically create complex objects, such as a User object with all its dependencies filled out (name, address, etc.). If the default behavior is sufficient, the specimen builder will create an instance based on the constructor parameters of the User class.
+
+Residue Collectors:
+
+- These are responsible for handling the creation of objects that do not match any specific customization or default rules. They ensure that the pipeline can still return objects, even if they don’t follow predefined rules.
+
+- Example: If a specific type of object has not been explicitly customized or built using the default mechanisms, the residue collectors ensure that the object is still generated, even if it's more generic.
