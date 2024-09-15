@@ -201,4 +201,4 @@ Lazy<T> Is the most common approach when working with singleton.
 
 Singelton vs Static classes
 
-![image](https://github.com/user-attachments/assets/a60b986c-e704-4a81-ad24-25a077bccf53)
+![image](https://github.com/user-attachments/assets/90999ee4-0629-4bf5-ac60-0c65d00671de)
