@@ -126,3 +126,79 @@ public class Singleton
 ```
 
 And the output will look the same.
+
+## Using static constructor and neted class
+
+```csharp
+public sealed class Singleton
+{
+    private Singleton()
+    {
+        Console.WriteLine("Constructor invoked");
+    }
+
+    private static class SingletonHolder
+    {
+        // Static constructor ensures that the instance is created only when accessed
+        internal static readonly Singleton instance = new Singleton();
+    }
+
+    public static Singleton Instance
+    {
+        get
+        {
+            Console.WriteLine("Instance invoked");
+            // The instance is created only when this is called for the first time
+            return SingletonHolder.instance;
+        }
+    }
+
+    public void ShowMessage()
+    {
+        Console.WriteLine("Singleton with static constructor and nested class is working!");
+    }
+}
+
+```
+Why Use a Nested Class?
+- Lazy Initialization: The SingletonHolder class is only loaded into memory when the Instance property is accessed for the first time. This is a form of lazy initialization.
+- Thread Safety: Static constructors in C# are automatically thread-safe, so the Singleton instance is guaranteed to be created safely, even in a multi-threaded environment.
+- No Locking Overhead: Because C# handles static initialization in a thread-safe way, there's no need to use manual locking (lock) to ensure that only one instance is created. This improves performance.
+
+## Lazy <T>
+
+The Lazy<T> class in C# is a built-in way to ensure lazy initialization and thread safety without the need for manual locks or static constructors. It's a highly recommended approach for creating Singleton instances.
+
+```csharp
+public sealed class Singleton
+{
+    private static readonly Lazy<Singleton> _lazyInstance = new Lazy<Singleton>(() => new Singleton());
+
+    private Singleton()
+    {
+    }
+
+    public static Singleton Instance
+    {
+        get
+        {
+            return _lazyInstance.Value;
+        }
+    }
+
+    public void ShowMessage()
+    {
+        Console.WriteLine("Lazy<T> Singleton instance is working!");
+    }
+}
+```
+
+- Lazy<T>: The Lazy<T> class is designed to handle lazy initialization and thread safety. It creates the Singleton instance only when the Value property is accessed for the first time.
+- Thread Safety: By default, Lazy<T> provides thread safety (LazyThreadSafetyMode.ExecutionAndPublication), ensuring that only one thread can initialize the Singleton instance.
+- No Manual Locks or Nested Class: You don't need a nested class, static constructor, or explicit locking mechanisms. Lazy<T> handles all of this internally, making the code simpler and more efficient.
+
+Lazy<T> Is the most common approach when working with singleton.
+
+Singelton vs Static classes
+
+![image](https://github.com/user-attachments/assets/a60b986c-e704-4a81-ad24-25a077bccf53)
