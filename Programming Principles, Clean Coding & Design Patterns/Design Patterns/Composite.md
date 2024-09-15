@@ -144,3 +144,10 @@ namespace Design_Patterns.Composite
 ```
 
 ![image](https://github.com/user-attachments/assets/ec8034d9-d60a-492a-b4ac-140eac8a0283)
+
+## Use cases
+
+- Files Hierarchies (like we have seen before)
+- Organization Hierarchies (Employees, Managers)
+- UI Hierarchies (Windows, Panels, Buttons)
+- Graphics and Shapes
