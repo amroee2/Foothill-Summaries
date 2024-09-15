@@ -109,3 +109,38 @@ namespace Design_Patterns.Composite
     }
 }
 ```
+
+Running a program
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Design_Patterns.Composite
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            var root = new FileDirectory("root");
+            root.Add(new FileDirectory("dir1"));
+            root.Add(new FileDirectory("dir2"));
+            root.Add(new FileItem("file1", 100));
+            root.Add(new FileItem("file2", 200));
+            var directory3 = new FileDirectory("dir3");
+            root.Add(directory3);
+            directory3.Add(new FileItem("file3", 300));
+            directory3.Add(new FileItem("file4", 400));
+            Console.WriteLine(root.GetKB());
+            Console.WriteLine(directory3.GetKB());
+            root.Display(0);
+            directory3.Display(0);
+        }
+    }
+}
+```
+
+![image](https://github.com/user-attachments/assets/ec8034d9-d60a-492a-b4ac-140eac8a0283)
