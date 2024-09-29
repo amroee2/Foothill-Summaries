@@ -75,3 +75,17 @@ var totalPrice = cart.CalculateTotalPrice();
 // Assert
 Assert.AreEqual(0, totalPrice);
 ```
+
+- Use Mocks and Stubs to Replace External Dependencies
+
+When a unit of code interacts with external systems (e.g., databases, web services), you should avoid testing those dependencies in a unit test. Instead, use mocks or stubs to simulate the behavior of those systems. This isolates the code under test and ensures the test doesn’t fail due to external factors.
+
+- Write Tests for Both Positive and Negative Scenarios
+
+Test both the "happy path" (when everything goes right) and edge cases (when things go wrong). Negative tests validate that the code behaves correctly under invalid or unexpected conditions, such as handling null inputs, incorrect data types, or failing operations gracefully.
+
+Example: For a login system, you should test both successful logins and unsuccessful attempts (invalid credentials, locked accounts, etc.).
+
+- Minimize Assertions Per Test
+
+Each test should have a minimal number of assertions (ideally one or two). The more assertions a test contains, the harder it becomes to pinpoint the cause of a failure. If multiple things need to be tested, consider breaking them into separate tests.
