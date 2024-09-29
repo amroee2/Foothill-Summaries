@@ -235,7 +235,7 @@ Console.WriteLine(passenger2.Age);   // Output: 30
 
 ## .Customize()
 
-Used to customize all instances of the type passed to fixture, for example in this method, **all passenger instances have Name property = "Amro".
+Used to customize all instances of the type passed to fixture, for example in this method, **all passenger instances have Name property = "Amro"**.
 
 ```csharp
 
