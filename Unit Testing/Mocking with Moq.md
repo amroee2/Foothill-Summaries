@@ -9,7 +9,7 @@ Why Mocking Is Important:
 
 # Moq
 
-Moq is one of the most popular mocking libraries for .NET, which helps in creating mocks, stubs, and fakes easily, allowing for flexible and readable unit tests. It provides a fluent API for setting up mock objects and verifying interactions with them.
+Moq is one of the most popular mocking libraries for .NET, which helps in creating mocks, allowing for flexible and readable unit tests. It provides a fluent API for setting up mock objects and verifying interactions with them.
 
 Assume we have this class
 
