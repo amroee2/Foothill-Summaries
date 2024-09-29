@@ -4,7 +4,6 @@ Fluent Assertions in C# is a powerful library that provides an intuitive, readab
 
 Key Features of Fluent Assertions:
 - Readability: The syntax is designed to be expressive and readable.
-- Extensibility: You can create custom assertions and extend the library to fit your needs.
 - Comprehensive assertions: It covers a wide range of data types, including objects, collections, strings, exceptions, and more.
 - Detailed error messages: When an assertion fails, Fluent Assertions provides detailed and clear failure messages.
 
