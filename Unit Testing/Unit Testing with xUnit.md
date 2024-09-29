@@ -410,3 +410,137 @@ public void OnlyAllowKingOrQueenBossEnemies()
 ![image](https://github.com/user-attachments/assets/eb6aeace-5f63-408b-885d-fb46879cbb4b)
 
 ![image](https://github.com/user-attachments/assets/62b4cb82-70b7-4c0e-ad18-b7c7e0c40e08)
+
+# Data driven testing
+
+Data-driven testing in xUnit for C# is a technique where you run the same test multiple times with different sets of input data. This allows you to test your code with various inputs without writing redundant code. I
+
+## Inline data
+
+```csharp
+using Xunit;
+
+public class CalculatorTests
+{
+    [Theory]
+    [InlineData(2, 3, 5)]
+    [InlineData(0, 0, 0)]
+    [InlineData(-1, -1, -2)]
+    public void Add_ShouldReturnCorrectSum(int num1, int num2, int expected)
+    {
+        // Arrange
+        var calculator = new Calculator();
+
+        // Act
+        var result = calculator.Add(num1, num2);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+}
+
+public class Calculator
+{
+    public int Add(int a, int b) => a + b;
+}
+```
+
+```csharp
+using Xunit;
+using System.Collections.Generic;
+
+public class CalculatorTests
+{
+    public static IEnumerable<object[]> GetData()
+    {
+        return new List<object[]>
+        {
+            new object[] { 2, 3, 5 },
+            new object[] { 10, 20, 30 },
+            new object[] { -5, 5, 0 }
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetData))]
+    public void Add_ShouldReturnCorrectSum(int num1, int num2, int expected)
+    {
+        // Arrange
+        var calculator = new Calculator();
+
+        // Act
+        var result = calculator.Add(num1, num2);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+}
+
+public class Calculator
+{
+    public int Add(int a, int b) => a + b;
+}
+```
+
+# Categorizing Tests
+
+In xUnit, Traits are a way to organize and categorize tests based on custom attributes. They are useful when you want to run or group specific sets of tests
+
+```csharp
+using Xunit;
+
+public class CalculatorTests
+{
+    [Fact]
+    [Trait("Category", "Unit")]
+    public void Add_ShouldReturnCorrectSum()
+    {
+        // Arrange
+        var calculator = new Calculator();
+        int num1 = 2;
+        int num2 = 3;
+
+        // Act
+        var result = calculator.Add(num1, num2);
+
+        // Assert
+        Assert.Equal(5, result);
+    }
+
+    [Fact]
+    [Trait("Category", "Integration")]
+    public void Subtract_ShouldReturnCorrectDifference()
+    {
+        // Arrange
+        var calculator = new Calculator();
+        int num1 = 5;
+        int num2 = 3;
+
+        // Act
+        var result = calculator.Subtract(num1, num2);
+
+        // Assert
+        Assert.Equal(2, result);
+    }
+}
+
+public class Calculator
+{
+    public int Add(int a, int b) => a + b;
+    public int Subtract(int a, int b) => a - b;
+}
+```
+
+Categorizing tests in more than one category
+
+```csharp
+
+[Fact]
+[Trait("Speed", "Slow")]
+[Trait("Component", "Billing")]
+public void BillingProcess_ShouldTakeLessThan5Seconds()
+{
+    // Test logic for billing process
+}
+
+```
