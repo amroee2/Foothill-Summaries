@@ -76,7 +76,7 @@ var totalPrice = cart.CalculateTotalPrice();
 Assert.AreEqual(0, totalPrice);
 ```
 
-- Use Mocks and Stubs to Replace External Dependencies
+- Use Mocks to Replace External Dependencies
 
 When a unit of code interacts with external systems (e.g., databases, web services), you should avoid testing those dependencies in a unit test. Instead, use mocks or stubs to simulate the behavior of those systems. This isolates the code under test and ensures the test doesn’t fail due to external factors.
 
