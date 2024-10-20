@@ -96,3 +96,27 @@ await _context.SaveChangesAsync();
 _context.Customers.Remove(customer);
 await _context.SaveChangesAsync();
 ```
+
+# EF Core Tracking and Untacking
+
+## Tracking
+
+By default, when entities are retrieved from the database, EF Core tracks them. This means it watches for changes to the entity's properties, and when SaveChanges() is called, it generates the appropriate SQL to update the database with those changes.
+
+```csharp
+var customer = dbContext.Customers.FirstOrDefault(c => c.Id == 1);
+customer.FirstName = "NewName";
+dbContext.SaveChanges();
+```
+
+## Untracking
+
+- If you are only querying data without intending to modify it, you can use AsNoTracking() to improve performance. Untracked entities are faster to query because EF Core doesn’t need to track their state for changes.
+
+- This is helpful for read-only operations or when you don’t plan to save changes.
+
+```csharp
+var customers = dbContext.Customers.AsNoTracking().Where(c => c.Age > 30).ToList();
+```
+
+Tracked entities are more expensive in terms of memory and performance because EF Core needs to monitor their state, while untracked entities are lighter and ideal for data retrieval where no modifications are needed.
