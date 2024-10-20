@@ -38,3 +38,43 @@ Servers: Similarly, when we talk about the word Servers, It means a person or me
 - Servers are prone to Denial of Service (DOS) attacks.
 - Data packets may be spoofed or modified during transmission.
 - Phishing or capturing login credentials or other useful information of the user are common and MITM(Man in the Middle) attacks are common.
+
+# Ports
+
+A port is a logical connection used by different programs and services to exchange informations, through it we can specifically determine which type of service is going to be used (Web page, Email, file transfer...).
+
+All ports have unique numbers, ranging from 0 - 65535.
+
+## Common Port Numbers
+
+- HTTPS -> 443
+- HTTP -> 80
+- Email (SMTP) -> 25
+- File tranfer (FTP) -> 21
+
+Ports are always associated with an **IP address**, through the IP address we can find the location of the server, and through the port number we can identify which **service** we want from that server.
+
+Through ```netstat -n``` on terminal, we can check our current active connections.
+
+Our local ip address represents our location, associated with the free temporary port number given to us
+
+Foreign addresses are the current active connections, like google servers and other servers as well.
+
+## Ports categories
+
+- System / Well Known Ports:
+
+They range from 0 - 1023, they represent the commonly used services (web pages, email, file transfer) like the ones mentioned above
+
+- User / Registred Ports:
+
+They range from 1024 - 49151, they are ports registred by companies/developers for a particular service
+
+1102 - Adobe Server
+1433 - Microsoft SQL Server
+1527 - Oracle
+
+- Dynamic / Private Ports:
+
+They range from 49152 - 65535, they are ports that our computer assigns temporarily to itself during a session, you can see that number changes a lot when calling ```netstat -n```
+
