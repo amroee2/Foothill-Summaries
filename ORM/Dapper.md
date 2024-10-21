@@ -115,3 +115,20 @@ public async Task<int> DeleteEmployeeAsync(int employeeId)
 }
 ```
 
+Dapper vs EF Core
+
+## Dapper
+
+**Speed**: Dapper is known for being extremely fast, often touted as the "King of Micro ORMs." because it executes raw SQL queries directly.
+
+**Ease of use**: Dapper is easy to work with for developers that are comfortable with SQL, as it only executes raw sql queries.
+
+**Manual Mapping**: Dapper requires more manual work when handling complex relationships, joins, and nested objects.
+
+**Flexibility**: It is lightweight and flexible, but the absence of built-in features like change tracking can make maintaining large-scale applications more difficult.
+
+**Features**: 
+
+- Minimalistic: Dapper is focused on speed and simplicity. It provides simple object mapping and does not support advanced ORM features like relationships, change tracking, or migrations.
+
+- Limited Features: It’s mainly used for SELECT queries and executing raw SQL. Anything beyond simple object mapping (like handling complex relationships) requires manual SQL.
