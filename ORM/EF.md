@@ -465,3 +465,44 @@ var customer = dbContext.Customers.Find(1);
 
 dbContext.Entry(customer).Collection(c => c.Orders).Load();
 ```
+
+# SQL Raw
+
+**FromSqlRaw** and **FromSqlInterpolated** are methods used to execute raw SQL queries that return entity types. These methods are powerful because they allow developers to write raw SQL queries within the context of EF Core, but they also come with security considerations, especially regarding SQL injection.
+
+## FromSqlRaw
+
+**Usage**: This method is used to run a raw SQL query in EF Core, and you have to manually handle parameterization.
+
+**Security**: FromSqlRaw is secure as long as all parameters are passed separately using placeholders ({0}, {1}, etc.) because EF Core will parameterize them and prevent SQL injection. However, if user input is directly embedded in the query string without placeholders, it becomes insecure, and SQL injection risks arises.
+
+
+```csharp
+public async Task<List<Customer>> GetCustomersWithBigPartySizeAsync(int partySize)
+{
+    var customers = await _context.Customers.FromSqlRaw("CustomersWithBigPartySize {0}", partySize).ToListAsync();
+    return customers;
+}
+```
+
+```csharp
+var unsafeQuery = $"SELECT * FROM Users WHERE Name = '{userInput}'";
+var users = context.Users.FromSqlRaw(unsafeQuery).ToList();
+```
+
+## FromSqlInterpolated
+
+```csharp
+var data = context.Entities.FromSqlInterpolated($"SELECT * FROM Entities WHERE Id = {id}").ToList();
+```
+
+**Security**: FromSqlInterpolated is always secure because EF Core automatically parameterizes the interpolated variables. Therefore, user input is safely escaped, preventing SQL injection.
+
+## SQL Injection
+
+SQL injection is a vulnerability that allows attackers to inject malicious SQL code into a query, potentially compromising the security of the database. This typically happens when user input is directly embedded into a query without being properly parameterized.
+
+```sql
+
+SELECT * FROM Users WHERE Name = '' OR 1=1; --'
+```
