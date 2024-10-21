@@ -48,3 +48,12 @@ namespace RestaurantReservationCore.Db.DataModels
 Database
 
 ![image](https://github.com/user-attachments/assets/df942d02-2e43-4bd8-8aab-e34b447bd30d)
+
+
+Code First Approach
+
+In Code First approach, the focus is on the domain of the application by creating the classes rather than designing the database and then creating the matching classes. It is also called as Domain-Driven Design. All the database operations can be performed through the code and if there is any manual change on the database, it must be replicated on the code side as well otherwise the changes will be lost once the code updates the database.
+
+Database First Approach
+
+In Database First approach, the database designing is done first then the entity framework can attach with the database. If the database is already available, then the entity framework can be used to create (Plain Old CLR Object) POCO entities or model classes based on the database tables and columns, and the classes will be the bridge between the controller and the database. It is an alternative to the Code First approach where schema is available and entity framework will be used after that. In this case, the manual modifications will remain intact and will not be changed and the same must be apply to the application code.
