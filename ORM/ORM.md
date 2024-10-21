@@ -49,6 +49,7 @@ Database
 
 ![image](https://github.com/user-attachments/assets/df942d02-2e43-4bd8-8aab-e34b447bd30d)
 
+## ORM Approaches
 
 Code First Approach
 
