@@ -78,3 +78,23 @@ They range from 1024 - 49151, they are ports registred by companies/developers f
 
 They range from 49152 - 65535, they are ports that our computer assigns temporarily to itself during a session, you can see that number changes a lot when calling ```netstat -n```
 
+
+# DNS
+
+The Domain Name System (DNS) is a hierarchical and distributed name service that provides a naming system for computers, services, and other resources on the Internet or other Internet Protocol (IP) networks.
+
+Every resource is assigned an IP Address that identifies it from other resources/devices.
+
+When we want to access a webpage, we pass on the name of the website but that name gets interperted as an IP Address for that same website.
+
+Here is how this works:
+
+The client contacts the resolver (ISP) for the IP address of google.com, if it has it then it will return the ip address.
+
+If not, the resolver contacts the root server, there are 13 of these in the world placed strategically accross it, the root server then redirects the resolver to the Top Level Domain (TLD).
+
+The TLD knows where the ip address is based on its domain (.com, .org, .net...), so it redirects the resolver to the Authorative Name Server.
+
+The authorative name server finally gives the ip address to the resolver, the later returns the ip address to the client and stores that said ip address to not have to repeat the process again.
+
+![image](https://github.com/user-attachments/assets/06b5f4dc-4262-4f36-aa36-af0989881285)
