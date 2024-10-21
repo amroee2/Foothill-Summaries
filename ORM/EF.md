@@ -60,6 +60,94 @@ Database Provider Identification: EF Core can work with multiple databases (SQL 
 
 The connection string is often stored in the appsettings.json file in .NET Core projects, making it easy to manage across environments (development, staging, production).
 
+## DbSet
+
+DbSet represents a collection of entities from the database that you want to query or manipulate. It acts as a bridge between the application and the corresponding database table, allowing CRUD operations (Create, Read, Update, Delete) to be performed on the entities.
+
+DbContext class manages the interaction with the database. Within the DbContext, each DbSet represents a table in the database, and the entities within the DbSet map to the rows of that table.
+
+```csharp
+public DbSet<CustomerReservationsByRestaurant> CustomerReservationsByRestaurants { get; set; }
+public DbSet<Restaurant> Restaurants { get; set; }
+public DbSet<Reservation> Reservations { get; set; }
+public DbSet<Customer> Customers { get; set; }
+public DbSet<Employee> Employees { get; set; }
+public DbSet<MenuItem> MenuItems { get; set; }
+public DbSet<Order> Orders { get; set; }
+public DbSet<Table> Tables { get; set; }
+public DbSet<OrderItem> OrderItems { get; set; }
+```
+## Fluent API
+
+Through Fluent API, we can set relationships, seed data and define constraints on properties.
+
+Fluent API is typically used inside the OnModelCreating() method of the DbContext class, allowing precise control over how entities are mapped to the database.
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Customer>()
+        .Property(c => c.FirstName)
+        .HasMaxLength(100)
+        .IsRequired();
+}
+```
+
+```csharp
+           modelBuilder.Entity<Customer>().HasData(
+               new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", PhoneNumber = "123456789" },
+               new Customer { CustomerId = 2, FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com", PhoneNumber = "987654321" },
+               new Customer { CustomerId = 3, FirstName = "Alice", LastName = "Johnson", Email = "alice.johnson@example.com" },
+               new Customer { CustomerId = 4, FirstName = "Bob", LastName = "Brown", Email = "bob.brown@example.com", PhoneNumber = "456123789" },
+               new Customer { CustomerId = 5, FirstName = "Charlie", LastName = "White", Email = "charlie.white@example.com" },
+               new Customer { CustomerId = 6, FirstName = "Emily", LastName = "Davis", Email = "emily.davis@example.com", PhoneNumber = "789456123" },
+               new Customer { CustomerId = 7, FirstName = "David", LastName = "Wilson", Email = "david.wilson@example.com" },
+               new Customer { CustomerId = 8, FirstName = "Grace", LastName = "Taylor", Email = "grace.taylor@example.com", PhoneNumber = "321654987" },
+               new Customer { CustomerId = 9, FirstName = "Ethan", LastName = "Anderson", Email = "ethan.anderson@example.com" },
+               new Customer { CustomerId = 10, FirstName = "Olivia", LastName = "Moore", Email = "olivia.moore@example.com", PhoneNumber = "159753258" }
+           );
+```
+
+```csharp
+modelBuilder.Entity<CustomerReservationsByRestaurant>().HasNoKey().ToView("CustomersReservationByRestaurant");
+```
+
+```csharp
+  modelBuilder.Entity<Customer>()
+      .HasMany(c => c.Reservations)
+      .WithOne(r => r.Customer)
+      .OnDelete(DeleteBehavior.Cascade);
+  modelBuilder.Entity<Reservation>()
+      .HasMany(c => c.Orders)
+      .WithOne(o => o.Reservation)
+      .OnDelete(DeleteBehavior.Cascade);
+  modelBuilder.Entity<Table>()
+      .HasMany(t => t.Reservations)
+      .WithOne(r => r.Table)
+      .OnDelete(DeleteBehavior.Cascade);
+  modelBuilder.Entity<Restaurant>()
+      .HasMany(r => r.Employees)
+      .WithOne(e => e.Restaurant)
+      .OnDelete(DeleteBehavior.NoAction);
+  modelBuilder.Entity<Restaurant>()
+      .HasMany(r => r.Tables)
+      .WithOne(t => t.Restaurant)
+      .OnDelete(DeleteBehavior.NoAction);
+```
+
+# Migrations
+
+Migrations allow you to evolve the database schema as your application evolves. Instead of manually altering the database, EF Core lets you apply schema changes through code using migrations.
+
+```Add-Migration InitialCreate```
+
+```Update-Database```
+
+EF Core generates a Designer Class (often found as ModelSnapshot in the Migrations folder) during migrations. This class represents the current state of the model, helping EF Core compare the current model to the database schema and identify changes.
+
+The Designer Class contains the model's structure and helps EF Core understand how to update the schema without relying on the previous migration files.
+
+
 # LINQ Operations in ORM
 
 We can access and manipulate data fetched from DB Context using LINQ Operations using OOP Syntax.
@@ -120,3 +208,101 @@ var customers = dbContext.Customers.AsNoTracking().Where(c => c.Age > 30).ToList
 ```
 
 Tracked entities are more expensive in terms of memory and performance because EF Core needs to monitor their state, while untracked entities are lighter and ideal for data retrieval where no modifications are needed.
+
+# Modeling Relationships in EF Core
+
+## One To One relationship
+
+```csharp
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public Address Address { get; set; }  // Navigation property
+}
+
+public class Address
+{
+    public int StudentId { get; set; }  // Primary key and foreign key
+    public string Street { get; set; }
+    public Student Student { get; set; }
+}
+```
+
+**Fluent API**
+
+```csharp
+modelBuilder.Entity<Student>()
+    .HasOne(s => s.Address)
+    .WithOne(a => a.Student)
+    .HasForeignKey<Address>(a => a.StudentId);
+```
+
+## One to Many Relationship
+
+```csharp
+public class Customer
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List<Order> Orders { get; set; }  // Navigation property
+}
+
+public class Order
+{
+    public int Id { get; set; }
+    public string Product { get; set; }
+    public int CustomerId { get; set; }  // Foreign key
+    public Customer Customer { get; set; }
+}
+```
+**Fluent API**
+
+```csharp
+modelBuilder.Entity<Order>()
+    .HasOne(o => o.Customer)
+    .WithMany(c => c.Orders)
+    .HasForeignKey(o => o.CustomerId);
+```
+
+## Many to Many Relationship
+
+```csharp
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List<Course> Courses { get; set; }  // Navigation property
+}
+
+public class Course
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public List<Student> Students { get; set; }  // Navigation property
+}
+```
+
+**Fluent API**
+
+```csharp
+modelBuilder.Entity<Student>()
+    .HasMany(s => s.Courses)
+    .WithMany(c => c.Students);
+```
+
+# Logging
+
+Logging is essential in EF Core for monitoring database interactions, diagnosing performance issues, and troubleshooting errors. EF Core provides built-in support for logging database queries and commands.
+
+```csharp
+public class ApplicationDbContext : DbContext
+{
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder
+            .UseSqlServer("YourConnectionString")
+            .LogTo(Console.WriteLine);
+    }
+}
+```
