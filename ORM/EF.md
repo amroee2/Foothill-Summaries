@@ -231,6 +231,8 @@ customer.FirstName = "NewName";
 dbContext.SaveChanges();
 ```
 
+![image](https://github.com/user-attachments/assets/46eac20b-683e-44d0-b2e0-344fe0f09195)
+
 ## Untracking
 
 - If you are only querying data without intending to modify it, you can use AsNoTracking() to improve performance. Untracked entities are faster to query because EF Core doesn’t need to track their state for changes.
