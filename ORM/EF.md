@@ -243,6 +243,74 @@ var customers = dbContext.Customers.AsNoTracking().Where(c => c.Age > 30).ToList
 
 Tracked entities are more expensive in terms of memory and performance because EF Core needs to monitor their state, while untracked entities are lighter and ideal for data retrieval where no modifications are needed.
 
+```csharp
+
+var customer = new Customer { Id = 1, Name = "Updated Name" };
+
+// Attach the entity since it's not being tracked
+_dbContext.Customers.Attach(customer);
+
+// Mark it as modified
+_dbContext.Entry(customer).State = EntityState.Modified;
+
+await _dbContext.SaveChangesAsync();
+
+```
+
+```csharp
+
+var customer = new Customer { Id = 1 };
+
+// Attach the entity
+_dbContext.Customers.Attach(customer);
+
+// Mark it as deleted
+_dbContext.Customers.Remove(customer);
+
+await _dbContext.SaveChangesAsync();
+```
+
+```csharp
+
+var newCustomer = new Customer { Name = "New Customer" };
+
+_dbContext.Customers.Add(newCustomer);
+
+await _dbContext.SaveChangesAsync();
+
+```
+
+**Check if entity is beaing tacked or not**
+
+```csharp
+
+var customer = new Customer { Id = 1 };
+
+// Check if the entity is being tracked
+var entry = _dbContext.Entry(customer);
+
+if (entry.State == EntityState.Detached)
+{
+    Console.WriteLine("The entity is untracked (Detached).");
+}
+else
+{
+    Console.WriteLine($"The entity is tracked and its state is: {entry.State}");
+}
+
+bool isTracked = _dbContext.ChangeTracker.Entries<Customer>()
+    .Any(e => e.Entity.Id == customer.Id);
+
+if (isTracked)
+{
+    Console.WriteLine("The entity is tracked.");
+}
+else
+{
+    Console.WriteLine("The entity is untracked.");
+}
+```
+
 # Modeling Relationships in EF Core
 
 ## One To One relationship
