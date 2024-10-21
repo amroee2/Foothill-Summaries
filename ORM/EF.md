@@ -306,3 +306,60 @@ public class ApplicationDbContext : DbContext
     }
 }
 ```
+
+# Types of loading
+
+## Eager Loading
+
+Eager Loading loads related entities along with the main entity as part of the initial query. This is achieved using the Include() method in LINQ queries. The goal of eager loading is to minimize the number of database queries by fetching all related data in a single query.
+
+**How It Works?**
+
+When you use eager loading, EF Core sends a query with JOIN or additional SELECT statements to load the main entity and its related data together.
+
+```csharp
+
+public async Task<List<MenuItem>> GetMenuItemsByReservationIdAsync(int reservationId)
+{
+    var menuItems = await _context.Orders.AsNoTracking().Where(o => o.ReservationId == reservationId)
+        .Include(o => o.OrderItems)
+        .ThenInclude(o => o.MenuItem)
+        .SelectMany(order => order.OrderItems.Select(oi => oi.MenuItem))
+        .ToListAsync();
+    return menuItems;
+}
+```
+
+## Lazy Loading
+
+Lazy Loading defers the loading of related data until it is explicitly accessed. EF Core automatically loads the related entities when you first access a navigation property.
+
+**How It Works?**
+
+With lazy loading, EF Core doesn’t load related entities immediately. Instead, when you access a navigation property, a separate query is triggered to load the related data.
+
+```csharp
+var customer = dbContext.Customers.Find(1);
+var orders = customer.Orders;
+```
+
+```csharp
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.UseLazyLoadingProxies();
+}
+```
+
+## Explicit Loading
+
+Explicit Loading is similar to lazy loading, but instead of automatically loading related entities, you manually request EF Core to load them using the Load() method. It gives you more control over when and how related data is loaded.
+
+**How It Works?**
+
+In explicit loading, EF Core does not automatically load related data when you access a navigation property. You explicitly tell EF Core to load the related data when needed.
+
+```csharp
+var customer = dbContext.Customers.Find(1);
+
+dbContext.Entry(customer).Collection(c => c.Orders).Load();
+```
