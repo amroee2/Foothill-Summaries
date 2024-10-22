@@ -468,6 +468,8 @@ var customer = dbContext.Customers.Find(1);
 dbContext.Entry(customer).Collection(c => c.Orders).Load();
 ```
 
+![image](https://github.com/user-attachments/assets/d153fd1f-5206-493c-b842-85ceb0ff47a8)
+
 # SQL Raw
 
 **FromSqlRaw** and **FromSqlInterpolated** are methods used to execute raw SQL queries that return entity types. These methods are powerful because they allow developers to write raw SQL queries within the context of EF Core, but they also come with security considerations, especially regarding SQL injection.
@@ -508,3 +510,11 @@ SQL injection is a vulnerability that allows attackers to inject malicious SQL c
 
 SELECT * FROM Users WHERE Name = '' OR 1=1; --'
 ```
+
+## Mapping
+
+![image](https://github.com/user-attachments/assets/e1a04929-bd57-411a-8aca-88c2ea56d72f)
+
+![image](https://github.com/user-attachments/assets/c5ab6fd3-1921-48f6-9ca3-a42083c0a40c)
+
+![image](https://github.com/user-attachments/assets/6c37cc2c-0b04-4d4d-a285-3cce150a875c)
