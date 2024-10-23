@@ -115,7 +115,7 @@ public async Task<int> DeleteEmployeeAsync(int employeeId)
 }
 ```
 
-Dapper vs EF Core
+ # Dapper vs EF Core
 
 ## Dapper
 
@@ -132,3 +132,23 @@ Dapper vs EF Core
 - Minimalistic: Dapper is focused on speed and simplicity. It provides simple object mapping and does not support advanced ORM features like relationships, change tracking, or migrations.
 
 - Limited Features: It’s mainly used for SELECT queries and executing raw SQL. Anything beyond simple object mapping (like handling complex relationships) requires manual SQL.
+
+## EF Core
+
+- Speed: EF Core is generally slower than Dapper because it is a full-featured ORM that abstracts database interactions, meaning it doesn't execute raw SQL directly unless explicitly configured to. This additional abstraction adds overhead, but EF Core has been optimized in recent versions to reduce the performance gap.
+
+= Ease of use: EF Core is easier for developers who prefer working with objects rather than writing raw SQL. It offers a high level of abstraction, making it more beginner-friendly for those unfamiliar with SQL.
+
+- Automatic Mapping: EF Core automatically maps relationships, joins, and complex object graphs between tables and classes, which reduces manual work but can add complexity if not carefully managed.
+
+- Flexibility: While EF Core provides a lot of flexibility in terms of querying, the abstraction layer can sometimes limit how efficiently developers can write optimized SQL queries. However, developers can always fall back on raw SQL using methods like FromSqlRaw.
+
+**Features**:
+
+- Change Tracking: EF Core includes built-in change tracking, which allows developers to modify entities and have EF automatically generate the correct SQL commands to update the database.
+
+- Migrations: EF Core supports database migrations, which help in managing schema changes over time. This is a key feature for applications that need to evolve their database structure.
+
+- Relationships: EF Core has strong support for managing relationships (one-to-many, many-to-many) between entities through navigation properties, including lazy, eager, and explicit loading options.
+
+- LINQ: EF Core uses LINQ to allow developers to write database queries in C#, which are translated into SQL queries by the ORM. This makes code more readable and easier to maintain.
