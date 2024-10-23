@@ -4,6 +4,34 @@ ASP.NET Web API is a framework for building RESTful services on the .NET platfor
 
 ## Program.cs
 
+This sets up the basic configuration for the web app. The CreateBuilder method prepares services and configurations (e.g., settings from appsettings.json, logging, etc.).
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+```
+This line registers the controllers for handling API requests.
+
+```csharp
+builder.Services.AddControllers();
+```
+
+DbContext for Entity Framework Core, which manages database access. The connection string ("DefaultConnection") is pulled from the configuration file to connect to the SQL Server database.
+
+```csharp
+builder.Services.AddDbContext<MyDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+```
+
+This sets up logging for your application. It clears any default logging providers and adds a new one that outputs log messages to the console. This helps in monitoring what’s happening while the application runs.
+
+```csharp
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
+```
+
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 
