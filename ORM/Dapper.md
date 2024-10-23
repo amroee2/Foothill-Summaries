@@ -103,7 +103,7 @@ public async Task<int> UpdateEmployeeAsync(Employee employee)
 
 ## Delete
 
-```chsarp
+```csharp
 public async Task<int> DeleteEmployeeAsync(int employeeId)
 {
     var sql = "DELETE FROM Employees WHERE EmployeeId = @EmployeeId";
