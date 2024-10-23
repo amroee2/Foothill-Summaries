@@ -415,6 +415,18 @@ public class ApplicationDbContext : DbContext
 
 ![image](https://github.com/user-attachments/assets/9d9cd651-d356-4155-a5aa-185d7454a391)
 
+```csharp
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    if (!optionsBuilder.IsConfigured)
+    {
+        optionsBuilder.UseSqlServer(
+            @"Server=(localdb)\mssqllocaldb;Database=RestaurantReservationSystem;Integrated Security=True")
+        .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
+    }
+}
+```
+
 # Types of loading
 
 ## Eager Loading
