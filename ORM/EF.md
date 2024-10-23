@@ -219,7 +219,7 @@ _context.Customers.Remove(customer);
 await _context.SaveChangesAsync();
 ```
 
-# EF Core Tracking and Untacking
+# EF Core Tracking and Untracking
 
 ## Tracking
 
