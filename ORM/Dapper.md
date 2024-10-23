@@ -137,7 +137,7 @@ public async Task<int> DeleteEmployeeAsync(int employeeId)
 
 - Speed: EF Core is generally slower than Dapper because it is a full-featured ORM that abstracts database interactions, meaning it doesn't execute raw SQL directly unless explicitly configured to. This additional abstraction adds overhead, but EF Core has been optimized in recent versions to reduce the performance gap.
 
-= Ease of use: EF Core is easier for developers who prefer working with objects rather than writing raw SQL. It offers a high level of abstraction, making it more beginner-friendly for those unfamiliar with SQL.
+- Ease of use: EF Core is easier for developers who prefer working with objects rather than writing raw SQL. It offers a high level of abstraction, making it more beginner-friendly for those unfamiliar with SQL.
 
 - Automatic Mapping: EF Core automatically maps relationships, joins, and complex object graphs between tables and classes, which reduces manual work but can add complexity if not carefully managed.
 
