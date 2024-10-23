@@ -573,3 +573,41 @@ namespace FirstProject.DAL
     }
 }
 ```
+
+## Testing with EF core
+
+```csharp
+        private readonly RestaurantReservationDbContext _context;
+        private readonly CustomerRepository _customerRepository;
+        private readonly IFixture _fixture;
+
+        public CustomerRepositoryTests()
+        {
+            var options = new DbContextOptionsBuilder<RestaurantReservationDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            _context = new RestaurantReservationDbContext(options);
+
+            _customerRepository = new CustomerRepository(_context);
+
+            _fixture = new Fixture();
+
+            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => _fixture.Behaviors.Remove(b));
+
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        }
+```
+
+```csharp
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                    @"Server=(localdb)\mssqllocaldb;Database=RestaurantReservationSystem;Integrated Security=True");
+            }
+        }
+```
