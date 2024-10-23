@@ -100,6 +100,7 @@ Entity Framework Core has built-in logging that integrates seamlessly with ASP.N
 
 Key Points about Automatic Logging:
 Integrated with ILogger: EF Core logs messages via the ASP.NET Core ILogger interface, which supports logging to different outputs (Console, Debug, File, etc.).
+
 Log Categories: EF Core logs important information like SQL queries executed, connection lifecycle events, and critical exceptions.
 Log Level Configuration: You can configure the log level (e.g., Debug, Information, Error) in appsettings.json or via Program.cs to control the verbosity of logs.
 
