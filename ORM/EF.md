@@ -411,6 +411,10 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
+![image](https://github.com/user-attachments/assets/d66c4956-4796-4a37-8939-a24dd86766b5)
+
+![image](https://github.com/user-attachments/assets/9d9cd651-d356-4155-a5aa-185d7454a391)
+
 # Types of loading
 
 ## Eager Loading
