@@ -611,3 +611,20 @@ namespace FirstProject.DAL
             }
         }
 ```
+
+```csharp
+        [Fact]
+        public async Task GetAllCustomersAsync_ShouldReturnAllCustomers()
+        {
+            // Arrange
+            var customers = _fixture.CreateMany<Customer>(10).ToList();
+            await _context.Customers.AddRangeAsync(customers);
+            await _context.SaveChangesAsync();
+
+            // Act
+            var result = await _customerRepository.GetAllAsync();
+
+            // Assert
+            Assert.Equal(customers.Count, result.Count);
+        }
+```
