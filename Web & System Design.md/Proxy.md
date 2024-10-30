@@ -75,3 +75,26 @@ Instead of the load balancer acting as a king and distributing traffic to server
 **Average Load Balancer**
 
 This load balancer comes in the middle, its works better than the dumb load balancer but it doesnt have all the setup and configs for the smart one, it picks a certain algorithm (there are almost 10 different ones) to assign traffic for servers, one algorithm can use a randomizing function.
+
+
+# Rate Limiter
+
+Rate limiting is a technique used to control the rate at which requests are made to a network, server, or other resource. It is used to prevent excessive or abusive use of a resource and to ensure that the resource is available to all users.
+
+Rate limiting is often used to protect against denial-of-service (DoS) attacks, which are designed to overwhelm a network or server with a high volume of requests, rendering it unavailable to legitimate users. It can also be used to limit the number of requests made by individual users, to ensure that a resource is not monopolized by a single user or group of users.
+
+There are several ways to implement rate limiting. One common approach is to set a maximum number of requests that a user or client can make within a given time period, such as a minute or an hour. If the user exceeds this limit, their subsequent requests may be denied or delayed until the rate limit is reset.
+
+Rate limiting can also be implemented at the network level, by setting limits on the number of requests that can be made to a specific network resource or by limiting the overall rate of traffic on a network.
+
+## How does it work
+
+Rate limiting tools track and throttle requests by monitoring the rate at which requests are made to a network, server, or resource and enforcing limits on this rate. There are several ways to implement rate limiting:
+
+- Request rate limit: A maximum number of requests that a user or client can make within a given time period, such as a minute or an hour. If the user exceeds this limit, their subsequent requests may be denied or delayed until the rate limit is reset.
+
+- Traffic rate limit: A maximum rate of traffic that can be transmitted over a network or between networks. This can be used to limit the overall rate of traffic on a network or to prioritize certain types of traffic, such as real-time or mission-critical data, over other types of traffic.
+
+- Resource-based rate limit: A maximum number of requests that can be made to a specific resource on a network or server. This can be used to ensure that a resource is not overwhelmed by a high volume of requests and is available to all users.
+
+**A Reverse Proxy can act as a load balancer and a rate limiter**
