@@ -1,6 +1,7 @@
 # ASP.NET Core
 
 ASP.Net core came out with .Net core in 2016, it's a cross platform open source web framework that can be used to web apps and services.
+
 ![image](https://github.com/user-attachments/assets/92aa250a-f5ab-47d0-a29f-853a56c31201)
 
 We can build different types of applications using ASP.Net including
