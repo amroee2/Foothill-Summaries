@@ -15,5 +15,12 @@ We can build different types of applications using ASP.Net including
 
 ## ASP.Net Core Architecture
 
-The bottom architucture platform are all 
+The bottom architucture platform represents ASP.Net core, while the top ones represents applications platforms that can be built using ASP.Net core.
+
+ASP.Net Core MVC Refers to the Model View Controller Architecture pattern that existed well before ASP.Net core itself, Where the Model represents the entities in the application, Controller for handling API Requests and the view for front end options.
+
+Razor and Blazor pages are front end options for ASP.Net core, they came out since the front end options had some issues in ASP.Net core MVC
+
+And ASP.Net Web APIS (and minimal apis) refer to the services application we talked about.
 ![image](https://github.com/user-attachments/assets/cdc69ed3-d49c-4e49-82d9-4e404674505e)
+
