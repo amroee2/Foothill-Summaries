@@ -70,3 +70,222 @@ The order of setting up middleware layers **does matter**
 
 ![image](https://github.com/user-attachments/assets/ebd41ad9-e826-450f-95e6-e1a6180ea99a)
 
+# ASP.Net Core MVC
+
+## Models
+
+Models are classes that contain the entites of the project (Poco classes) and the classes that manages data (repositroy classes), we access the database through model classes to fetch any needed data to display for the user
+
+![image](https://github.com/user-attachments/assets/8a03de41-742e-45a3-bf5e-870850c86301)
+
+```cshap
+namespace BethanysPieShop.Models
+{
+    public class Pie
+    {
+        public int PieId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? ShortDescription { get; set; }
+        public string? LongDescription { get; set; }
+        public string? AllergyInformation { get; set; }
+        public decimal Price { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageThumbnailUrl { get; set; }
+        public bool IsPieOfTheWeek { get; set; }
+        public bool InStock { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = default!;
+    }
+}
+```
+
+![image](https://github.com/user-attachments/assets/fbae6ca9-edb6-4c1b-a398-f1fdc8445246)
+
+Repositroy classes must implement an interface, and we can use it's methods through that interface via dep injection that we can add through 3 methods
+
+![image](https://github.com/user-attachments/assets/4e8765e7-6ed2-4846-8377-be4fced3ca89)
+
+- AddScoped: Maps the class to the interface, whenever the interface is "instaniated", we will get an instance of the mapped class, the instance stays per scope (per http request)
+
+- AddTransient: A new instance of the service is created each time it is requested.
+
+- AddSingleton: A single instance of the service is created and shared across the entire application lifecycle.
+
+AddScoped is the most used, and the dependencies are added to the services DI container in program.cs
+
+## Controller
+
+Controllers are the center of the project, they interact with models and views depending on user interactions, and it has no database knowledge
+
+![image](https://github.com/user-attachments/assets/2c49e9aa-1c96-477c-a5cb-60b32b57b335)
+
+```csharp
+using BethanysPieShop.Models;
+using BethanysPieShop.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BethanysPieShop.Controllers
+{
+    public class PieController : Controller
+    {
+        private readonly IPieRepository _pieRepository;
+        private readonly ICategoryRepository _categoryRepository;
+
+        public PieController(IPieRepository pieRepository, ICategoryRepository categoryRepository)
+        {
+            _pieRepository = pieRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        public IActionResult List()
+        {
+            PieListViewModel piesListViewModel = new PieListViewModel(_pieRepository.AllPies, "Cheese cakes");
+            return View(piesListViewModel);
+        }
+    }
+}
+```
+
+The List() method will return a view (discussed in a second) with the address /pie/list
+
+## Views
+
+They represent the pages that the user can interact with, they are html templates (cshtml) that use razor code to display dynamic data that is passed to it from the controller (that took it from the model)
+
+![image](https://github.com/user-attachments/assets/22d26999-ca34-42bb-b591-4c01d6b6dde5)
+
+We can pass data to views in different ways
+
+- ViewBag
+
+We can pass what is known as a view bag to the view as defined in the example here
+
+![image](https://github.com/user-attachments/assets/c7169bd8-c633-43ee-b203-c28bffb25eea)
+
+![image](https://github.com/user-attachments/assets/c8c7f6e3-42cf-43ab-bd2a-aea3083ea391)
+
+![image](https://github.com/user-attachments/assets/34e44ba7-990e-4b7b-847c-ec89ceb63c8d)
+
+- Strongly Typed Views
+
+We simply pass on what we want to dispaly, list of pies here for example, then in the view we can map the model to contain the list (more examples coming)
+
+![image](https://github.com/user-attachments/assets/764e9050-7ebf-411f-9287-54017f45a38e)
+
+![image](https://github.com/user-attachments/assets/780ece16-69cc-43af-b184-5a9a49816a7e)
+
+- View Models
+
+View models idea is similar to "Dtos" in apis, we construct a class that contains what we want to present to the user for a specific page, for example we can define  view model for the list page we mentioned before
+
+```csharp
+using BethanysPieShop.Models;
+
+namespace BethanysPieShop.ViewModels
+{
+    public class PieListViewModel
+    {
+        public IEnumerable<Pie> Pies { get; }
+        public string? CurrentCategory { get; }
+
+        public PieListViewModel(IEnumerable<Pie> pies, string? currentCategory)
+        {
+            Pies = pies;
+            CurrentCategory = currentCategory;
+        }
+    }
+}
+```
+
+Then instaniate the view model in the controller pass the instance to the view
+
+```csharp
+        public IActionResult List()
+        {
+            //ViewBag.CurrentCategory = "Cheese cakes";
+
+            //return View(_pieRepository.AllPies);
+
+            PieListViewModel piesListViewModel = new PieListViewModel(_pieRepository.AllPies, "Cheese cakes");
+            return View(piesListViewModel);
+        }
+```
+
+in the view, we can simply then map the @model keyword
+
+```csharp
+@model PieListViewModel
+
+<h1>@Model.CurrentCategory</h1>
+```
+
+and then do as before
+
+```csharp
+@model PieListViewModel
+
+<h1>@Model.CurrentCategory</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (var pie in Model.Pies)
+    {
+        <div class="col">
+            <div class="card pie-card">
+                <img src="@pie.ImageThumbnailUrl" class="card-img-top" alt="@pie.Name">
+                <div class="card-body pie-button">
+                    <h4 class="d-grid">
+                    </h4>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <h2 class="text-start">
+                            <a class="pie-link">@pie.Name</a>
+                        </h2>
+                        <h5 class="text-nowrap">
+                            @pie.Price.ToString("c")
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+```
+
+
+## Layput.cshtml
+
+Layouts are html/razor code that you want to see in all pages, but dont want to repeat in every view file (respect DRY)
+
+Layout file
+
+![image](https://github.com/user-attachments/assets/cf6b90d9-f643-4c0c-8015-25c1f62794d3)
+
+then we can call layouts in each file 
+
+![image](https://github.com/user-attachments/assets/d6ad9ae5-4fdd-469c-9ef0-8278a8be98a7)
+
+Or use what is known is a "_ViewStart.cshtml"
+
+## _ViewStart.cshtml
+
+Any code in this view file will be presented in every page, so simply calling the layout in that file will resut in adding it to every page
+
+```csharp
+
+@{
+    Layout = "_Layout";
+}
+```
+
+## _ViewImports.cshtml
+
+We can add imports to it so we dont have to repeat them in every view file
+
+```csharp
+
+@using BethanysPieShop.Models
+@using BethanysPieShop.ViewModels
+
+```
