@@ -289,3 +289,37 @@ We can add imports to it so we dont have to repeat them in every view file
 @using BethanysPieShop.ViewModels
 
 ```
+
+## Routing
+
+There are 2 approaches for routing in asp.net core MVC
+
+- Conventional Approach
+
+The route is configured to bt the address/{ControllerName}/{ActionMethod}
+
+For example, the routings here are 
+
+https://localhost/Pie/List
+
+and https://localhost/Pie/Details/{id}
+
+- Attribute based approach
+
+...
+
+The default controller is called HomeController, and the default action method is called Index
+
+So having a HomeController with an Index method with a view returned will result in the home page (first page when opening the website) having that said view
+
+- Tags
+
+They are used to navigate between pages using html anchor elements (<a> </a>)
+
+```csharp
+
+<a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+
+<a asp-controller="Pie" asp-action="List" class="nav-link">Pies</a>
+```
+
