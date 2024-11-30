@@ -314,7 +314,7 @@ So having a HomeController with an Index method with a view returned will result
 
 - Tags
 
-They are used to navigate between pages using html anchor elements (<a> </a>)
+They are used to navigate between pages using html anchor elements (<a>)
 
 ```csharp
 
@@ -323,3 +323,8 @@ They are used to navigate between pages using html anchor elements (<a> </a>)
 <a asp-controller="Pie" asp-action="List" class="nav-link">Pies</a>
 ```
 
+to import tag helpers
+
+```csharp
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+```
