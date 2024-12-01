@@ -312,7 +312,7 @@ The default controller is called HomeController, and the default action method i
 
 So having a HomeController with an Index method with a view returned will result in the home page (first page when opening the website) having that said view
 
-- Tags
+- Tag Helpers
 
 They are used to navigate between pages using html anchor elements (<a>)
 
@@ -328,3 +328,51 @@ to import tag helpers
 ```csharp
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 ```
+
+## Partial Views
+
+They are like views except they arent called by the controller or passed data through it, the can be used as a shared file by other views
+
+```csharp
+
+@model Pie
+<div class="col">
+    <div class="card pie-card">
+        <img src="@Model.ImageThumbnailUrl" class="card-img-top" alt="@Model.Name">
+        <div class="card-body pie-button">
+            <h4 class="d-grid">
+                <a class="btn btn-secondary" 
+                   asp-controller="ShoppingCart" 
+                   asp-action="AddToShoppingCart"
+                   asp-route-pieId="@Model.PieId"> + Add to cart</a>
+            </h4>
+            
+            <div class="d-flex justify-content-between mt-2">
+                <h2 class="text-start">
+                    <a asp-controller="Pie"
+                       asp-action="Details"
+                       asp-route-id="@Model.PieId"
+                       class="pie-link">@Model.Name</a>
+                </h2>
+                <h5 class="text-nowrap">
+                    @Model.Price.ToString("c")
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+For example, this partial view displays the information for one pie, we can add this partial view in a page that displays all pies + in a one that displays top 10 pies.
+
+## Sessions
+
+In ASP.NET, sessions are used to store user-specific data across multiple HTTP requests. Since HTTP is a stateless protocol (i.e., each request is independent and does not retain information from previous requests), sessions provide a way to maintain user-specific information between requests.
+
+When a session is created, a unique session ID is generated for the user.
+This session ID is typically stored in a cookie on the user's browser (ASP.NET_SessionId by default) or passed as part of the URL (if cookies are disabled).
+
+The session ID acts as a key to retrieve the user's session data on the server.
+Session data is stored in server-side storage (e.g. SQL Server).
+
+This is particularly suitable if we want the user to interact with the server without having to log in, but sessions dont live for long and the user will have a new session id soon enough.
