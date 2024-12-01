@@ -376,3 +376,6 @@ The session ID acts as a key to retrieve the user's session data on the server.
 Session data is stored in server-side storage (e.g. SQL Server).
 
 This is particularly suitable if we want the user to interact with the server without having to log in, but sessions dont live for long and the user will have a new session id soon enough.
+
+## Forms
+...
