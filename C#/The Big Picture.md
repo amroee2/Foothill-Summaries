@@ -2,7 +2,7 @@
 
 C# Is an object oriented programming language that is a mixture of both Java and the C Family.
 
-OOP came out in 2001 after the Rivarly between CPP and Java, and solved a lot of issues that where in both languages.
+C# came out in 2001 after the Rivarly between CPP and Java, and solved a lot of issues that where in both languages.
 
 **What makes C# a good programmling language?**
 
