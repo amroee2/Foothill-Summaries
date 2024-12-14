@@ -78,3 +78,39 @@ Vertical slices architecture looks at dividing the application based on features
 ![image](https://github.com/user-attachments/assets/1f384a17-1e12-4342-bdd2-5d3812812030)
 
 Vertical slices downside is that there is no clear way on how code can be shared between slices, so there will be violations of the DRY principle.
+
+## Repository Pattern and Unit of work
+
+Repository pattern refers to the concept of adding a layer between business layer and the database through repositroy classes
+
+![image](https://github.com/user-attachments/assets/ae129d6b-6a56-4248-bd84-6574effaf8e5)
+
+These repository classes implement an interface and interact with the database and other layers can use these interfaces to handle requests.
+
+Unit of work is about bundling or encapsulating one or more repositories into one unit, so changes can be comitted together to the database, which reduces network traffic and valuable if one of the operations fails, with included rollback mechanism.
+
+```csharp
+
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly DbContext _context;
+    private IRepository<Order> _orders;
+
+    public UnitOfWork(DbContext context)
+    {
+        _context = context;
+    }
+
+    public IRepository<Order> Orders => _orders ??= new Repository<Order>(_context);
+
+    public async Task<int> CommitAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+}
+```
