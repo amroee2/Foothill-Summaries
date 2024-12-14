@@ -35,9 +35,6 @@ public class InvoicePersistence {
     }
 }
 ```
-
-To do this, we had to **extend** InvoicePersistence class to include the new functionality, which violates OCP.
-
 Another way to implement saveToDatabase method is by using **interfaces**
 
 We can convert InvoicePersistance to an interface:
