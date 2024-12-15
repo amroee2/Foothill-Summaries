@@ -21,5 +21,5 @@ Network protocols are essential rules and standards that define how data is tran
 
 ## DNS
 
-**Port: DNS operates over UDP (port 53) but can fall back to TCP when necessary for larger queries.
+**Port**: DNS operates over UDP (port 53) but can fall back to TCP when necessary for larger queries.
 **Purpose**: Resolves human-readable domain names to IP addresses.
